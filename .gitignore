@@ -6,13 +6,6 @@ __pycache__/
 # C extensions
 *.so
 
-# User-specific stuff
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
-
 # Distribution / packaging
 .Python
 build/
@@ -117,7 +110,4 @@ venv.bak/
 *.iml
 out
 gen
-将删除 .idea/
-将删除 app/static/
-将删除 app/templates/blog_main/
-将删除 app/templates/main/
+
