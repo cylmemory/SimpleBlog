@@ -109,3 +109,15 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+将删除 .idea/
+将删除 app/static/
+将删除 app/templates/blog_main/
+将删除 app/templates/main/
