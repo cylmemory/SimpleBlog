@@ -3,13 +3,13 @@ import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
-class Config:
+class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'fjdljLJDL08_80jflKzcznv*c'
     MONGODB_SETTINGS = {'DB': 'Tools'}
 
     TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates').replace('//', '/')
     STATIC_PATH = os.path.join(BASE_DIR, 'static').replace('//', '/')
-    EXPORT_PATH = os.path.join(BASE_DIR, 'exports').replace('\\', '/')
+    EXPORT_PATH = os.path.join(BASE_DIR, 'exports').replace('//', '/')
 
     if not os.path.exists(EXPORT_PATH):
         os.makedirs(EXPORT_PATH)
@@ -19,7 +19,7 @@ class Config:
         pass
 
 
-class DevelopmentCnfig(Config):
+class DevelopmentConfig(Config):
     DEBUG = True
 
 
@@ -42,7 +42,7 @@ class TestingConfig(Config):
 
 
 config = {
-    'development': DevelopmentCnfig,
+    'development': DevelopmentConfig,
     'production': ProductionConfig,
     'testing': TestingConfig
 }

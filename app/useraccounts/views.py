@@ -4,5 +4,3 @@ from .. import db
 def index():
     return 'hello!'
 
-def list_post():
-    pass
