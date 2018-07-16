@@ -12,13 +12,14 @@ SOCIAL_NETWORKS = {
 
 
 class User(UserMixin, db.Document):
-    username = db.StingField(max_length=255, required=True)
+    username = db.StringField(max_length=255, required=True)
     email = db.EmailField(max_length=255)
     password_hash = db.StringField(required=True)
     create_time = db.DateTimeField(default=datetime.datetime.now, required=True)
     last_login_time = db.DateTimeField(default=datetime.datetime.now, required=True)
     confirmed = db.BooleanField(required=False)
     role = db.StringField(max_length=32, default='reader', choices=ROLES)
+    is_superuser = db.BooleanField(default=False)
     about_me = db.StringField()
     social_networks = db.DictField(default=SOCIAL_NETWORKS)
 

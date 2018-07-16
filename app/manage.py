@@ -1,9 +1,8 @@
 #!/usr/bin/env python
-
-import os
+import os, sys
 from flask_script import Manager, Server
-from . import create_app
-
+from app import create_app
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 app = create_app(os.getenv('config') or 'default')
 manager = Manager(app)
