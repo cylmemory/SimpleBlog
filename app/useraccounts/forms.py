@@ -8,3 +8,8 @@ from wtforms import StringField, PasswordField, BooleanField, TextAreaField, \
 from  wtforms.validators import Required, Length, Email, Regexp
 from . import models
 
+
+class LoginForm(FlaskForm):
+    Username = StringField()
+    Password = PasswordField()
+    remember_me = BooleanField(label='Keep me logged in')

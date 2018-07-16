@@ -7,9 +7,9 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'fjdljLJDL08_80jflKzcznv*c'
     MONGODB_SETTINGS = {'DB': 'Tools'}
 
-    TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates').replace('//', '/')
-    STATIC_PATH = os.path.join(BASE_DIR, 'static').replace('//', '/')
-    EXPORT_PATH = os.path.join(BASE_DIR, 'exports').replace('//', '/')
+    TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates').replace('\\', '/')
+    STATIC_PATH = os.path.join(BASE_DIR, 'static').replace('\\', '/')
+    EXPORT_PATH = os.path.join(BASE_DIR, 'exports').replace('\\', '/')
 
     if not os.path.exists(EXPORT_PATH):
         os.makedirs(EXPORT_PATH)
