@@ -22,15 +22,15 @@ def create_app(config_name):
     login_manager.init_app(app)
 
     from main.urls import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    app.register_blueprint(main_blueprint, url_prefix='/admin')
 
     from useraccounts.urls import accounts as accounts_blueprint
-    app.register_blueprint(accounts_blueprint)
+    app.register_blueprint(accounts_blueprint, url_prefix='/useraccounts')
 
     return app
 
 
-
+app = create_app(os.getenv('config') or 'default')
 
 
 

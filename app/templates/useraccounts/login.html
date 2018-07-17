@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "login_base.html" %}
+{% block header %}login{% endblock %}
 
-</body>
-</html>
+{% block main %}
+
+<div class="row">
+    <div class="col-xs-6 col-sm-3"></div>
+    <div class="col-xs-6 col-sm-6">
+        {% import "_form.html" as forms %}
+        <form method="POST" action="" id='login'>
+        {{ forms.render(form) }}
+            <button type="submit" class="btn btn-primary" name="login">Login</button>
+        </form>
+        <br>
+        <a href="{{ url_for('useraccounts.login') }}"> <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+        Click here if you forget your password?</a>
+    </div>
+    <div class="col-xs-6 col-sm-3"></div>
+</div>
+
+{% endblock %}

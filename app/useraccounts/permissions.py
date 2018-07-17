@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask_principal import identity_changed, RoleNeed, UserNeed,Permission
+from flask_principal import identity_changed, RoleNeed, UserNeed, Permission
 from flask_login import current_user
 
 
@@ -28,6 +28,6 @@ def on_identity_changed(sender, identity):
         identity.provides.add(su_need(current_user.is_superuser))
 
     identity.allow_su = Permission.allows(identity)
-    identity.allow_amdin = Permission.allows(identity)
+    identity.allow_admin = Permission.allows(identity)
     identity.allow_edit = Permission.allows(identity)
     identity.allow_write = Permission.allows(identity)
