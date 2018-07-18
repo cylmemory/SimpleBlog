@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>{% block title %}Otc Blog Admin{% endblock %}</title>
+    <title>{% block title %}Simple Blog Admin{% endblock %}</title>
 
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='img/favicon-64x64.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='img/favicon-96x96.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
 
     <!-- Bootstrap Core CSS -->
@@ -22,6 +22,20 @@
 
     {% block css %}{% endblock %}
     <style> html{display : none ; } </style>
+    <script>
+    if( self == top ) {
+              document.documentElement.style.display = 'block' ;
+       } else {
+           top.location = self.location ;
+       }
+    </script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
     <!-- Navigation -->
@@ -35,40 +49,136 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url_for('useraccounts.login') }}">Simple Blog</a>
+          <a class="navbar-brand" href="{{ url_for('main.index') }}">Simple Blog</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+          <ul class="nav navbar-nav">
+            <li class="_active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+
+            {% if False %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Posts <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">All Posts</a></li>
+                <li><a href="#">New Post</a></li>
+                <!-- <li><a href="{{ url_for('blog_admin.posts') }}?draft=true">Drafts</a></li> -->
+                <li><a href="#">Drafts</a></li>
+                <!-- <li class="divider"></li> -->
+
+                <li class="divider"></li>
+                <li><a href="#">Tags</a></li>
+                <li><a href="#">Category</a></li>
+
+                <li class="divider"></li>
+                <li><a href="#">Import</a></li>
+                <li><a href="#">Export</a></li>
+              </ul>
+            </li>
+
+            {% if False %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">WeChat <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">All WeChats</a></li>
+                <li><a href="#">New WeChat</a></li>
+                <!-- <li><a href="{{ url_for('blog_admin.pages') }}?draft=true">Drafts</a></li> -->
+                <li><a href="#">Drafts</a></li>
+              </ul>
+            </li>
+            {% endif %} <!-- end allow_wechat_port -->
+
+
+            {% endif %}  <!-- g.identity.allow_write -->
+
+            {% if False %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Pages <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">All Pages</a></li>
+                <li><a href="#">New Page</a></li>
+                <!-- <li><a href="{{ url_for('blog_admin.pages') }}?draft=true">Drafts</a></li> -->
+                <li><a href="#">Drafts</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Comments <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Pending</a></li>
+                <li><a href="#">Approved</a></li>
+                <!-- <li><a href="{{ url_for('blog_admin.pages') }}?draft=true">Drafts</a></li> -->
+                <li><a href="#">Spam</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Import</a></li>
+              </ul>
+            </li>
+            {% endif %}
+
+            {% if False %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Users <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">All Users</a></li>
+                <li><a href="#">New User</a></li>
+                <!-- <li class="divider"></li>
+                <li><a href="#">User Groups</a></li> -->
+                <!-- <li class="divider"></li>
+                <li><a href="#">Category</a></li> -->
+              </ul>
+            </li>
+            {% endif %}
+
+            {% if False %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Super Admin <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Super Posts</a></li>
+                <li><a href="#">Users</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Widget</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Posts Statistics</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Import</a></li>
+                <li><a href="#">Export</a></li>
+              </ul>
+            </li>
+            {% endif %}
+
+          </ul>
 
 
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
           <ul class="nav navbar-nav navbar-right">
           {% if current_user.is_authenticated %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ current_user.username }} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ url_for('useraccounts.login') }}">Settings</a></li>
+                <li><a href="{{ url_for('accounts.settings') }}">Settings</a></li>
                 <li><a href="#">Import/Export</a></li>
                 <li class="divider"></li>
-                <li><a href="{{ url_for('useraccounts.login') }}">Logout</a></li>
+                <li><a href="{{ url_for('accounts.logout') }}">Logout</a></li>
                 <!-- <li class="divider"></li>
                 <li><a href="#">Category</a></li> -->
               </ul>
             </li>
           {% else %}
-            <li><a href="{{ url_for('useraccounts.login') }}">Login</a></li>
-            <li><a href="{{ url_for('useraccounts.login') }}">Register</a></li>
+            <li><a href={{ url_for('useraccounts.login') }}>Login</a></li>
+            <li><a href={{ url_for('useraccounts.register') }}>Register</a></li>
           {% endif %}
           </ul>
-
         </div>
       </div><!-- /.container-fluid -->
+      </div>
     </nav>
 
 
     <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
     {%block header %}{% endblock %}
     <div class="container">
         <!-- Main Content -->
@@ -86,7 +196,7 @@
                             <a href="https://creativecommons.org/licenses/" target="_blank">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-creative-commons fa-stack-1x fa-inverse"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
                                 </span>
                             </a>
                         </li>
@@ -94,12 +204,12 @@
                             <a href="#">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
                                 </span>
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/flyhigher139/OctBlog" target="_blank">
+                            <a href="https://github.com/cylmemory/SimpleBlog" target="_blank">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -107,7 +217,7 @@
                             </a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted text-center">Copyright &copy; Oct Blog 2015</p>
+                    <p class="copyright text-muted text-center">Copyright &copy; Simple Blog 2018</p>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-from .. import db
+from .. import db, login_manager
 from flask_login import UserMixin
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -35,7 +35,13 @@ class User(UserMixin, db.Document):
         return check_password_hash(self.password_hash, password)
 
 
-
+@login_manager.user_loader
+def load_user(username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = None
+    return user
 
 
 

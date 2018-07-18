@@ -25,3 +25,7 @@ def login():
         flash('Invalid username or password', 'danger')
 
     return render_template('useraccounts/login.html', form=form)
+
+
+def register():
+    return render_template('useraccounts/register.html')
