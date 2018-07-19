@@ -1,21 +1,25 @@
-from flask import redirect, render_template, url_for, request, g, flash, session, current_app
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from flask import redirect, render_template, url_for, request, g, flash, session, current_app, abort
 from .. import db
-from . import models
-from . import forms
+from .models import User
+from .forms import LoginForm, RegistrationForm
 from flask_login import login_user, current_user
 import datetime
 from flask_principal import identity_changed, Identity
+from ..config import BlogSettings
 
 
 def login():
-    form = forms.LoginForm()
+    form = LoginForm()
     if form.validate_on_submit():
         try:
-            user = models.User.objects.get(username=form.username.data)
-        except models.User.DoesNotExist:
+            user = User.objects.get(username=form.Username.data)
+        except User.DoesNotExist:
             user = None
 
-        if user and user.verify_password(form.password.data):
+        if user and user.verify_password(form.Password.data):
             login_user(user, form.remember_me.data)
             user.last_login = datetime.datetime.now
             user.save()
@@ -27,5 +31,22 @@ def login():
     return render_template('useraccounts/login.html', form=form)
 
 
-def register():
-    return render_template('useraccounts/register.html')
+def register(admin_create=True):
+    if admin_create and not BlogSettings['allow_admin_creation']:
+        msg = 'Administrator creation is forbidden,Please contact author'
+        abort(403, msg)
+
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User()
+        user.email = form.email.data
+        user.username = form.username.data
+        user.password = form.password.data
+
+        if admin_create and BlogSettings['allow_admin_creation']:
+            user.is_superuser = True
+        user.save()
+
+        return redirect(url_for('useraccounts.login'))
+
+    return render_template('useraccounts/register.html', form=form)

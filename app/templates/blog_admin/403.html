@@ -1,0 +1,15 @@
+{% extends 'login_base.html' %}
+{% block title %}Forbidden{% endblock %}
+
+{% block main %}
+<div class="col-md-6 col-md-offset-2">
+    <div class="row">
+        <h3>403 Error</h3>
+        {% if msg %}
+            <p>{{ msg }}</p>
+        {% else %}
+            <p>Your requests is forbidden</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

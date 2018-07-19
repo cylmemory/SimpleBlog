@@ -1,6 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+
+BlogSettings = {
+    'allow_admin_creation': os.environ.get('allow_admin_creation', 'false').lower() == 'true'
+}
 
 
 class Config(object):
