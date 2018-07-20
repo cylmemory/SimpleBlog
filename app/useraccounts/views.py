@@ -31,7 +31,7 @@ def login():
     return render_template('useraccounts/login.html', form=form)
 
 
-def register(admin_create=True):
+def register(admin_create=False):
     if admin_create and not BlogSettings['allow_admin_creation']:
         msg = 'Administrator creation is forbidden,Please contact author'
         abort(403, msg)
