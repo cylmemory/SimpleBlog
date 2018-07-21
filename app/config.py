@@ -7,7 +7,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 BlogSettings = {
-    'allow_admin_creation': os.environ.get('allow_admin_creation', 'false').lower() == 'true'
+    'allow_admin_creation': os.environ.get('allow_admin_creation', 'true').lower() == 'true'
 }
 
 
