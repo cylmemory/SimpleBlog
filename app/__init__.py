@@ -23,11 +23,13 @@ def create_app(config_name):
     moment.init_app(app)
     login_manager.init_app(app)
 
-    from main.urls import main as main_blueprint
+    from main.urls import main as main_blueprint, blog_admin
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(blog_admin, url_prefix='/admin')
 
     from useraccounts.urls import accounts as accounts_blueprint
     app.register_blueprint(accounts_blueprint, url_prefix='/useraccounts')
+
 
     return app
 
