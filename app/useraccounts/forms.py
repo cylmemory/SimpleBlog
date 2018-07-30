@@ -10,8 +10,8 @@ from .models import User
 
 
 class LoginForm(FlaskForm):
-    Username = StringField()
-    Password = PasswordField()
+    username = StringField()
+    password = PasswordField()
     remember_me = BooleanField(label='Keep me logged in')
 
 

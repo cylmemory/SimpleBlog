@@ -15,11 +15,11 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         try:
-            user = User.objects.get(username=form.Username.data)
+            user = User.objects.get(username=form.username.data)
         except User.DoesNotExist:
             user = None
 
-        if user and user.verify_password(form.Password.data):
+        if user and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             user.last_login = datetime.datetime.now
             user.save()

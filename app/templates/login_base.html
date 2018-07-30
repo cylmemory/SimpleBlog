@@ -54,8 +54,6 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-
           <ul class="nav navbar-nav">
             <li class="_active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
 
@@ -149,8 +147,7 @@
             {% endif %}
 
           </ul>
-
-
+        </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
@@ -159,20 +156,17 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ current_user.username }} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#">Settings</a></li>
-                <li><a href="#">Import/Export</a></li>
                 <li class="divider"></li>
                 <li><a href="#">Logout</a></li>
-                <!-- <li class="divider"></li>
-                <li><a href="#">Category</a></li> -->
               </ul>
             </li>
           {% else %}
-            <li><a href={{ url_for('useraccounts.login') }}>Login</a></li>
-            <li><a href={{ url_for('useraccounts.register') }}>Register</a></li>
+            <li><a href="{{ url_for('useraccounts.login') }}">Login</a></li>
+            <li><a href="{{ url_for('useraccounts.register')}}">Regster</a></li>
           {% endif %}
           </ul>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
       </div>
     </nav>
 
@@ -181,6 +175,8 @@
     <!-- Set your background image for this header on the line below. -->
     {%block header %}{% endblock %}
     <div class="container">
+        {% import "_msg.html" as messages %}
+        {{ messages.render_msg() }}
         <!-- Main Content -->
         {%block main %}{% endblock %}
     </div>

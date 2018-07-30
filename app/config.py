@@ -34,7 +34,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
     MONGODB_SETTINGS = {
-        'db': os.environ.get('DB_NAME') or 'OctBlog',
+        'db': os.environ.get('DB_NAME') or 'Tools',
         'host': os.environ.get('MONGO_HOST') or 'localhost',
         }
 

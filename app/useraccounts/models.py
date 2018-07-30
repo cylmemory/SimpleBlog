@@ -17,7 +17,7 @@ class User(UserMixin, db.Document):
     password_hash = db.StringField(required=True)
     create_time = db.DateTimeField(default=datetime.datetime.now, required=True)
     last_login_time = db.DateTimeField(default=datetime.datetime.now, required=True)
-    confirmed = db.BooleanField(required=False)
+    confirmed = db.BooleanField(default=False)
     role = db.StringField(max_length=32, default='reader', choices=ROLES)
     is_superuser = db.BooleanField(default=False)
     about_me = db.StringField()

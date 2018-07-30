@@ -8,7 +8,7 @@ from .config import config
 db = MongoEngine()
 moment = Moment()
 login_manager = LoginManager()
-login_manager.session_protection = 'strong'
+login_manager.session_protection = 'basic'
 login_manager.login_view = 'useraccounts.login'
 
 
@@ -23,9 +23,9 @@ def create_app(config_name):
     moment.init_app(app)
     login_manager.init_app(app)
 
-    from main.urls import main as main_blueprint, blog_admin
+    from main.urls import main as main_blueprint, blog_admin as blog_admin_blueprint
     app.register_blueprint(main_blueprint)
-    app.register_blueprint(blog_admin, url_prefix='/admin')
+    app.register_blueprint(blog_admin_blueprint, url_prefix='/admin/')
 
     from useraccounts.urls import accounts as accounts_blueprint
     app.register_blueprint(accounts_blueprint, url_prefix='/useraccounts')
