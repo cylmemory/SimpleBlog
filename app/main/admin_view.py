@@ -10,7 +10,7 @@ def get_current_user():
 
 
 class AdminIdx(MethodView):
-    # decorators = [login_required]
+    decorators = [login_required]
     template_name = 'blog_admin/index.html'
 
     def get(self):
