@@ -76,7 +76,6 @@
                 <li><a href="#">Export</a></li>
               </ul>
             </li>
-            {% endif  %}
 
             {% if False %}
             <li class="dropdown">
@@ -88,7 +87,9 @@
                 <li><a href="#">Drafts</a></li>
               </ul>
             </li>
-            {% endif %}
+            {% endif %} <!-- end allow_wechat_port -->
+
+            {% endif %}  <!-- g.identity.allow_write -->
 
             {% if False %}
             <li class="dropdown">
@@ -145,7 +146,6 @@
             {% endif %}
 
           </ul>
-        </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
@@ -164,7 +164,6 @@
           {% endif %}
           </ul>
         </div>
-      </div>
       </div>
     </nav>
 

@@ -14,6 +14,6 @@ class AdminIdx(MethodView):
     template_name = 'blog_admin/index.html'
 
     def get(self):
-        user = current_user
+        user = get_current_user()
         return render_template(self.template_name, user=user)
 

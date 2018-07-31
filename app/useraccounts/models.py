@@ -34,6 +34,12 @@ class User(UserMixin, db.Document):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def get_id(self):
+        try:
+            return self.username
+        except AttributeError:
+            raise NotImplementedError('No `username` attribute - override `get_id`')
+
 
 @login_manager.user_loader
 def load_user(username):
