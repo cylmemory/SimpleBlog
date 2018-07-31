@@ -5,9 +5,9 @@ from flask import redirect, render_template, url_for, request, g, flash, session
 from .. import db
 from .models import User
 from .forms import LoginForm, RegistrationForm
-from flask_login import login_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 import datetime
-from flask_principal import identity_changed, Identity
+from flask_principal import identity_changed, Identity, AnonymousIdentity
 from ..config import BlogSettings
 
 
@@ -50,3 +50,18 @@ def register(admin_create=False):
         return redirect(url_for('useraccounts.login'))
 
     return render_template('useraccounts/register.html', form=form)
+
+
+@login_required
+def logout():
+    logout_user()
+    for key in ('identity.name', 'identity.auth_type'):
+        session.pop(key, None)
+
+    identity_changed.send(current_user._get_current_object(), identity=AnonymousIdentity())
+
+    flash('You have been logged out', 'success')
+
+    return redirect(url_for('useraccounts.login'))
+
+

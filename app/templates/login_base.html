@@ -55,7 +55,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class="_active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+            <li class="_active"><a href="{{ url_for('blog_admin.index') }}">Home <span class="sr-only">(current)</span></a></li>
 
             {% if False %}
             <li class="dropdown">
@@ -153,9 +153,9 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ current_user.username }} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Settings</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp; Settings</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="{{ url_for('useraccounts.logout') }}"><span class="glyphicon glyphicon-off"></span>&nbsp; Logout</a></li>
               </ul>
             </li>
           {% else %}

@@ -22,6 +22,7 @@ class User(UserMixin, db.Document):
     is_superuser = db.BooleanField(default=False)
     about_me = db.StringField()
     social_networks = db.DictField(default=SOCIAL_NETWORKS)
+    homepage_url = db.URLField()
 
     @property
     def password(self):
