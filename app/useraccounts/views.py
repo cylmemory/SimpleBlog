@@ -12,6 +12,8 @@ from ..config import BlogSettings
 
 
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('blog_admin.index'))
     form = LoginForm()
     if form.validate_on_submit():
         try:
