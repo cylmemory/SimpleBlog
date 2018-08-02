@@ -57,7 +57,7 @@
           <ul class="nav navbar-nav">
             <li class="_active"><a href="{{ url_for('blog_admin.index') }}">Home <span class="sr-only">(current)</span></a></li>
 
-            {% if False %}
+            {% if g.identity.allow_su %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Posts <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -76,22 +76,9 @@
                 <li><a href="#">Export</a></li>
               </ul>
             </li>
-
-            {% if False %}
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">WeChat <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">All WeChats</a></li>
-                <li><a href="#">New WeChat</a></li>
-                <!-- <li><a href="{{ url_for('blog_admin.pages') }}?draft=true">Drafts</a></li> -->
-                <li><a href="#">Drafts</a></li>
-              </ul>
-            </li>
-            {% endif %} <!-- end allow_wechat_port -->
-
             {% endif %}  <!-- g.identity.allow_write -->
 
-            {% if False %}
+            {% if g.identity.allow_edit %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Pages <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -114,7 +101,7 @@
             </li>
             {% endif %}
 
-            {% if False %}
+            {% if g.identity.allow_admin %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Users <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -128,7 +115,7 @@
             </li>
             {% endif %}
 
-            {% if False %}
+            {% if g.identity.allow_admin %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Super Admin <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -144,7 +131,6 @@
               </ul>
             </li>
             {% endif %}
-
           </ul>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -163,6 +149,7 @@
             <li><a href="{{ url_for('useraccounts.register')}}">Regster</a></li>
           {% endif %}
           </ul>
+        </div>
         </div>
       </div>
     </nav>

@@ -1,21 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask_principal import identity_changed, RoleNeed, UserNeed, Permission
+from flask_principal import identity_loaded, RoleNeed, UserNeed, Permission
 from flask_login import current_user
-
+from flask import current_app
 
 su_need = RoleNeed('su')
+admin_need = RoleNeed('admin')
+editor_need = RoleNeed('editor')
+writer_need = RoleNeed('writer')
+reader_need = RoleNeed('reader')
 
 su_Permission = Permission(su_need)
-admin_Permission = Permission(RoleNeed('admin')).union(su_Permission)
-editor_Permission = Permission(RoleNeed('editor')).union(admin_Permission)
-writer_Permission = Permission(RoleNeed('writer')).union(editor_Permission)
-reader_Permission = Permission(RoleNeed('reader')).union(writer_Permission)
+admin_Permission = Permission(admin_need).union(su_Permission)
+editor_Permission = Permission(editor_need).union(admin_Permission)
+writer_Permission = Permission(writer_need).union(editor_Permission)
+reader_Permission = Permission(reader_need).union(writer_Permission)
 
 
-@identity_changed.connect_via(current_user)
-def on_identity_changed(sender, identity):
+@identity_loaded.connect_via(current_app)
+def on_identity_loaded(sender, identity):
     identity.user = current_user
 
     if hasattr(current_user, 'username'):
@@ -25,9 +29,9 @@ def on_identity_changed(sender, identity):
         identity.provides.add(RoleNeed(current_user.role))
 
     if hasattr(current_user, 'is_superuser') or current_user.is_superuser:
-        identity.provides.add(su_need(current_user.is_superuser))
+        identity.provides.add(su_need)
 
-    identity.allow_su = Permission.allows(identity)
-    identity.allow_admin = Permission.allows(identity)
-    identity.allow_edit = Permission.allows(identity)
-    identity.allow_write = Permission.allows(identity)
+    identity.allow_su = su_Permission.allows(identity)
+    identity.allow_admin = admin_Permission.allows(identity)
+    identity.allow_edit = editor_Permission.allows(identity)
+    identity.allow_write = writer_Permission.allows(identity)
