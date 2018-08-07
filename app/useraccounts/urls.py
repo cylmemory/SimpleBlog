@@ -1,6 +1,6 @@
 from flask import Blueprint
 from . import views
-from ..main import errors
+from main import errors
 
 accounts = Blueprint('useraccounts', __name__)
 

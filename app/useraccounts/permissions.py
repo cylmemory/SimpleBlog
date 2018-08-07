@@ -18,8 +18,9 @@ writer_Permission = Permission(writer_need).union(editor_Permission)
 reader_Permission = Permission(reader_need).union(writer_Permission)
 
 
-@identity_loaded.connect_via(current_app)
-def on_identity_loaded(sender, identity):
+# @identity_loaded.connect_via(current_app._get_current_object())
+@identity_loaded.connect
+def on_identity_change(sender, identity):
     identity.user = current_user
 
     if hasattr(current_user, 'username'):
@@ -32,6 +33,6 @@ def on_identity_loaded(sender, identity):
         identity.provides.add(su_need)
 
     identity.allow_su = su_Permission.allows(identity)
-    identity.allow_admin = admin_Permission.allows(identity)
     identity.allow_edit = editor_Permission.allows(identity)
+    identity.allow_admin = admin_Permission.allows(identity)
     identity.allow_write = writer_Permission.allows(identity)

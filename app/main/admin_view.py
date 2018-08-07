@@ -1,7 +1,7 @@
 from flask import request, redirect, render_template, url_for, abort, flash, g, current_app, send_from_directory
 from flask.views import MethodView
 from flask_login import login_required, current_user
-from ..useraccounts.models import User
+from useraccounts.models import User
 
 
 def get_current_user():

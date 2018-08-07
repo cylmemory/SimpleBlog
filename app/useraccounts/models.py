@@ -1,7 +1,7 @@
-from .. import db, login_manager
 from flask_login import UserMixin
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import db, login_manager
 
 ROLES = (('admin', 'admin'), ('editor', 'editor'), ('writer', 'writer'), ('reader', 'reader'))
 SOCIAL_NETWORKS = {
@@ -41,6 +41,8 @@ class User(UserMixin, db.Document):
         except AttributeError:
             raise NotImplementedError('No `username` attribute - override `get_id`')
 
+    def __unicode__(self):
+        return self.username
 
 @login_manager.user_loader
 def load_user(username):

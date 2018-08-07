@@ -2,13 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from flask import redirect, render_template, url_for, request, g, flash, session, current_app, abort
-from .. import db
 from .models import User
 from .forms import LoginForm, RegistrationForm
 from flask_login import login_user, logout_user, current_user, login_required
 import datetime
 from flask_principal import identity_changed, Identity, AnonymousIdentity
-from ..config import BlogSettings
 
 
 def login():
