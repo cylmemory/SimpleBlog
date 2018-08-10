@@ -7,7 +7,9 @@ from .forms import LoginForm, RegistrationForm
 from flask_login import login_user, logout_user, current_user, login_required
 import datetime
 from flask_principal import identity_changed, Identity, AnonymousIdentity
-from .permissions import admin_Permission
+from ..config import BlogSettings
+from .permissions import admin_Permission, su_Permission
+from flask.views import MethodView
 
 
 def login():
@@ -64,5 +66,13 @@ def logout():
     flash('You have been logged out', 'success')
 
     return redirect(url_for('useraccounts.login'))
+
+
+class Users(MethodView):
+    template_name = 'useraccounts/users.html'
+    decorators = [login_required, su_Permission.require(401)]
+
+    def get(self):
+        users = User.objects.get()
 
 
