@@ -73,6 +73,9 @@ class Users(MethodView):
     decorators = [login_required, su_Permission.require(401)]
 
     def get(self):
-        users = User.objects.get()
+        users = User.objects.all()
+        return render_template(self.template_name, users=users)
+
+
 
 

@@ -13,7 +13,7 @@ BlogSettings = {
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'fjdljLJDL08_80jflKzcznv*c'
-    MONGODB_SETTINGS = {'DB': 'SimpleBlog'}
+    MONGODB_SETTINGS = {'DB': 'Tools'}
 
     TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates').replace('\\', '/')
     STATIC_PATH = os.path.join(BASE_DIR, 'static').replace('\\', '/')
@@ -34,7 +34,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
     MONGODB_SETTINGS = {
-        'db': os.environ.get('DB_NAME') or 'SimpleBlog',
+        'db': os.environ.get('DB_NAME') or 'Tools',
         'host': os.environ.get('MONGO_HOST') or 'localhost',
         }
 
