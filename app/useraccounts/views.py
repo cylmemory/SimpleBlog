@@ -7,6 +7,7 @@ from .forms import LoginForm, RegistrationForm
 from flask_login import login_user, logout_user, current_user, login_required
 import datetime
 from flask_principal import identity_changed, Identity, AnonymousIdentity
+from .permissions import admin_Permission
 
 
 def login():

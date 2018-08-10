@@ -3,7 +3,6 @@
 
 from flask_principal import identity_loaded, RoleNeed, UserNeed, Permission
 from flask_login import current_user
-from flask import current_app
 
 su_need = RoleNeed('su')
 admin_need = RoleNeed('admin')
@@ -18,7 +17,6 @@ writer_Permission = Permission(writer_need).union(editor_Permission)
 reader_Permission = Permission(reader_need).union(writer_Permission)
 
 
-# @identity_loaded.connect_via(current_app._get_current_object())
 @identity_loaded.connect
 def on_identity_change(sender, identity):
     identity.user = current_user
