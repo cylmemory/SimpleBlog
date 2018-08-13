@@ -8,6 +8,7 @@
                         <th>No.</th>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>Role</th>
                         <th>Create_time</th>
                         <th>Last_login_time</th>
                         <th>Confirmed</th>
@@ -20,6 +21,7 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ user.username}}</td>
                             <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
                             <td>{{ user.create_time.strftime('%Y-%m-%d') }}</td>
                             <td>{{ user.last_login_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                             <td>{{ user.confirmed }}</td>
