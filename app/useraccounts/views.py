@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from flask import redirect, render_template, url_for, request, g, flash, session, current_app, abort
-from .models import User
-from .forms import LoginForm, RegistrationForm
+from . import models
+from .forms import LoginForm, RegistrationForm, UserForm
 from flask_login import login_user, logout_user, current_user, login_required
 import datetime
 from flask_principal import identity_changed, Identity, AnonymousIdentity
@@ -18,7 +18,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         try:
-            user = User.objects.get(username=form.username.data)
+            user = models.User.objects.get(username=form.username.data)
         except User.DoesNotExist:
             user = None
 
@@ -41,7 +41,7 @@ def register(admin_create=False):
 
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User()
+        user = models.User()
         user.email = form.email.data
         user.username = form.username.data
         user.password = form.password.data
@@ -73,9 +73,23 @@ class Users(MethodView):
     decorators = [login_required, su_Permission.require(401)]
 
     def get(self):
-        users = User.objects.all()
+        users = models.User.objects.all()
         return render_template(self.template_name, users=users)
 
+class User(MethodView):
+    template_name = 'useraccounts/user.html'
+    decorators = [login_required, admin_Permission.require(401)]
 
+    def get_context_data(self, username, form):
+        if not form:
+            user = models.User.objects.get_or_404(username=username)
+            form = UserForm(obj=user)
+        data = {'form': form, 'user': user}
+
+        return data
+
+    def get(self, username, form=None):
+        data = self.get_context_data(username, form)
+        return render_template(self.template_name, **data)
 
 

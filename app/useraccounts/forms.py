@@ -3,10 +3,10 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, TextAreaField, \
-    HiddenField, RadioField, FileField, SubmitField, IntegerField, ValidationError
+    HiddenField, RadioField, FileField, SubmitField, IntegerField, SelectField, ValidationError
 
 from  wtforms.validators import Required, Length, Email, Regexp, DataRequired, EqualTo
-from .models import User
+from .models import User, ROLES
 
 
 class LoginForm(FlaskForm):
@@ -32,3 +32,6 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Username has exist')
 
 
+class UserForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1, 125), Email()])
+    role = SelectField('Role', choices=ROLES)
