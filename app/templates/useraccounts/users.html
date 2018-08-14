@@ -1,4 +1,24 @@
 {% extends 'login_base.html' %}
+{% block js %}
+<script type="text/javascript">
+    $('.delete-user').on('click', function (event) {
+        var url=$(this).attr('href');
+        url = url + '?delete_tag=true';
+        bootbox.confirm("Are you sure?", function (result) {
+            if(result){
+                $.ajax({
+                    url:url,
+                    type:'DELETE',
+                    success:function (result) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+        return false;
+    })
+</script>
+{% endblock %}
 {% block main %}
     <div class="col-md-12">
         <div class="row">
@@ -26,7 +46,7 @@
                             <td>{{ user.last_login_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                             <td>{{ user.confirmed }}</td>
                             <td>
-                                <a href="#"><span class="glyphicon glyphicon-remove"></span></a>
+                                <a href="{{ url_for('useraccounts.edit-user', username=user.username) }}" class="delete-user"><span class="glyphicon glyphicon-remove"></span></a>
                                 &nbsp
                                 <a href="{{ url_for('useraccounts.edit-user', username=user.username) }}"><span class="glyphicon glyphicon-edit"></span></a>
                             </td>
@@ -36,6 +56,4 @@
             </table>
         </div>
     </div>
-
-
 {% endblock %}

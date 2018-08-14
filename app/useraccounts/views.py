@@ -92,4 +92,27 @@ class User(MethodView):
         data = self.get_context_data(username, form)
         return render_template(self.template_name, **data)
 
+    def post(self, username):
+        form = UserForm(request.form)
+        if form.validate_on_submit():
+            user = models.User.objects.get(username=username)
+            if user.email != form.email.data:
+                user.confirmed = False
+            user.email = form.email.data
+            user.role = form.role.data
+            user.is_superuser = (request.form.get('is_superuser') != None)
+            user.confirmed = (request.form.get('confirmed') != None)
+            user.save()
+            flash('Update user detail successful', 'success')
+            return redirect(url_for('useraccounts.edit-user', username=username))
+        return self.get(username, form)
 
+    def delete(self, username):
+        user = models.User.objects.get_or_404(username=username)
+        user.delete()
+        if request.args.get('delete_tag'):
+            return 'success'
+
+        msg = 'Delete successful'
+        flash(msg, 'success')
+        return redirect(url_for('useraccounts.users'))
