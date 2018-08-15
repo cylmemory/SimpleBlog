@@ -49,7 +49,7 @@ def register(admin_create=False):
         if admin_create and BlogSettings['allow_admin_creation']:
             user.is_superuser = True
         user.save()
-
+        flash('Register successful! Please login.', 'success')
         return redirect(url_for('useraccounts.login'))
 
     return render_template('useraccounts/register.html', form=form)
@@ -116,3 +116,17 @@ class User(MethodView):
         msg = 'Delete successful'
         flash(msg, 'success')
         return redirect(url_for('useraccounts.users'))
+
+
+@login_required
+def add_user():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = models.User()
+        user.email = form.email.data
+        user.username = form.username.data
+        user.password = form.password.data
+        user.save()
+        flash('Success to add a new user !', 'success')
+        return redirect(url_for('useraccounts.users'))
+    return render_template('useraccounts/register.html', form=form)

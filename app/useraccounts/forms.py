@@ -35,3 +35,11 @@ class RegistrationForm(FlaskForm):
 class UserForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 125), Email()])
     role = SelectField('Role', choices=ROLES)
+
+class AddUserForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1, 60), Email()])
+    username = StringField('Username', validators=[DataRequired(), Length(1, 60),
+        Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 'username must have only letters, numbers dots or underscores')])
+    password = PasswordField('Password', validators=[DataRequired(), EqualTo('password2', message='password must match')])
+    password2 = PasswordField('Confirm password', validators=[DataRequired()])
+    submit = SubmitField('Add')
