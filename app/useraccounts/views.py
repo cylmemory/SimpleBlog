@@ -3,7 +3,7 @@
 
 from flask import redirect, render_template, url_for, request, g, flash, session, current_app, abort
 from . import models
-from .forms import LoginForm, RegistrationForm, UserForm
+from .forms import LoginForm, RegistrationForm, UserForm, AddUserForm
 from flask_login import login_user, logout_user, current_user, login_required
 import datetime
 from flask_principal import identity_changed, Identity, AnonymousIdentity
@@ -120,13 +120,15 @@ class User(MethodView):
 
 @login_required
 def add_user():
-    form = RegistrationForm()
+    form = AddUserForm()
     if form.validate_on_submit():
         user = models.User()
         user.email = form.email.data
         user.username = form.username.data
         user.password = form.password.data
+        user.role = form.role.data
+        user.confirmed = (request.form.get('confirm') != None)
         user.save()
         flash('Success to add a new user !', 'success')
         return redirect(url_for('useraccounts.users'))
-    return render_template('useraccounts/register.html', form=form)
+    return render_template('useraccounts/add_user.html', form=form)

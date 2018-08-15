@@ -42,4 +42,12 @@ class AddUserForm(FlaskForm):
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 'username must have only letters, numbers dots or underscores')])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo('password2', message='password must match')])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
-    submit = SubmitField('Add')
+    role = SelectField('Role', choices=ROLES)
+
+    def validate_email(self, field):
+        if User.objects.filter(email=field.data).count() > 0:
+            raise ValidationError('Email already registered')
+
+    def validate_username(self, field):
+        if User.objects.filter(username=field.data).count() > 0:
+            raise ValidationError('Username has exist')
