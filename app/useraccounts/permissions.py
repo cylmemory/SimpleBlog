@@ -27,7 +27,7 @@ def on_identity_change(sender, identity):
     if hasattr(current_user, 'role'):
         identity.provides.add(RoleNeed(current_user.role))
 
-    if hasattr(current_user, 'is_superuser') or current_user.is_superuser:
+    if hasattr(current_user, 'is_superuser') and current_user.is_superuser:
         identity.provides.add(su_need)
 
     identity.allow_su = su_Permission.allows(identity)
