@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, TextAreaField, \
     HiddenField, RadioField, FileField, SubmitField, IntegerField, SelectField, ValidationError
 
-from  wtforms.validators import Required, Length, Email, Regexp, DataRequired, EqualTo
+from  wtforms.validators import  Length, Email, Regexp, DataRequired, EqualTo, URL, Optional
 from .models import User, ROLES
 
 
@@ -51,3 +51,16 @@ class AddUserForm(FlaskForm):
     def validate_username(self, field):
         if User.objects.filter(username=field.data).count() > 0:
             raise ValidationError('Username has exist')
+
+class UpdateProfileForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1,125), Email()])
+    about_me = StringField('About_me')
+    homepage = StringField('HomePage', validators=[URL(), Optional()])
+    github = StringField('Github', validators=[URL(), Optional()])
+    facebook = StringField('Facebook', validators=[URL(), Optional()])
+    twitter = StringField('Twitter', validators=[URL(), Optional()])
+    wechat = StringField('Wehcat', validators=[URL(), Optional()])
+    weibo = StringField('Weibo', validators=[URL(), Optional()])
+
+
+

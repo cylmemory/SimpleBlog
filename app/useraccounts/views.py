@@ -3,7 +3,7 @@
 
 from flask import redirect, render_template, url_for, request, g, flash, session, current_app, abort
 from . import models
-from .forms import LoginForm, RegistrationForm, UserForm, AddUserForm
+from .forms import LoginForm, RegistrationForm, UserForm, AddUserForm, UpdateProfileForm
 from flask_login import login_user, logout_user, current_user, login_required
 import datetime
 from flask_principal import identity_changed, Identity, AnonymousIdentity
@@ -19,7 +19,7 @@ def login():
     if form.validate_on_submit():
         try:
             user = models.User.objects.get(username=form.username.data)
-        except User.DoesNotExist:
+        except models.User.DoesNotExist:
             user = None
 
         if user and user.verify_password(form.password.data):
@@ -131,4 +131,32 @@ def add_user():
         user.save()
         flash('Success to add a new user !', 'success')
         return redirect(url_for('useraccounts.users'))
-    return render_template('useraccounts/add_user.html', form=form)
+    return render_template('useraccounts/users.html', form=form)
+
+
+class Profile(MethodView):
+    template_name = 'useraccounts/setting.html'
+    decorators = [login_required]
+
+    def get_context_data(self, form):
+        if not form:
+            user = current_user
+            user.github = user.social_networks['github'].get('url')
+            user.wechat = user.social_networks['wechat'].get('url')
+            user.weibo = user.social_networks['weibo'].get('url')
+            user.twitter = user.social_networks['twitter'].get('url')
+            user.facebook = user.social_networks['facebook'].get('url')
+            form = UpdateProfileForm(obj=user)
+        data = {'form': form}
+
+        return data
+
+    def get(self, form=None):
+        data = self.get_context_data(form)
+        return render_template(self.template_name, **data)
+
+    def post(self,username):
+        form = UpdateProfileForm(request.form)
+        if form.validate_on_submit():
+            user = models.User.objects.get(username=username)
+

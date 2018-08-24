@@ -6,8 +6,10 @@ from app import db, login_manager
 ROLES = (('admin', 'admin'), ('editor', 'editor'), ('writer', 'writer'), ('reader', 'reader'))
 SOCIAL_NETWORKS = {
     'weibo': {'fa_icon': 'fa fa-weibo', 'url': None},
-    'wechat': {'fa_icon': 'fa fa-wechat', 'url': None},
-    'github': {'fa_icon': 'fa fa-github', 'url': None}
+    'wechat': {'fa_icon': 'fa fa-weixin', 'url': None},
+    'github': {'fa_icon': 'fa fa-github', 'url': None},
+    'twitter': {'fa_icon': 'fa fa fa-twitter', 'url': None},
+    'facebook': {'fa_icon': 'fa fa-facebook', 'url': None},
 }
 
 
