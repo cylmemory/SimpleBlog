@@ -3,7 +3,7 @@
 
 from flask import redirect, render_template, url_for, request, g, flash, session, current_app, abort
 from . import models
-from .forms import LoginForm, RegistrationForm, UserForm, AddUserForm, UpdateProfileForm
+from .forms import LoginForm, RegistrationForm, UserForm, AddUserForm, UpdateProfileForm, ModifyPasswordForm
 from flask_login import login_user, logout_user, current_user, login_required
 import datetime
 from flask_principal import identity_changed, Identity, AnonymousIdentity
@@ -175,5 +175,20 @@ class Profile(MethodView):
             flash('Success to update ！', 'success')
             return redirect(url_for('blog_admin.index'))
         return self.get(form)
+
+@login_required
+def update_password():
+    form = ModifyPasswordForm()
+    if form.validate_on_submit():
+        user = current_user
+        if form.current_password.data != form.confirm_password.data:
+            user.password = form.confirm_password.data
+            user.save()
+            flash('success to update !', 'success')
+            return redirect(url_for('useraccounts.password'))
+        flash('New password is as same as current password.Please enter again!', 'danger')
+    return render_template('useraccounts/update_password.html', form=form)
+
+
 
 

@@ -7,6 +7,7 @@ from wtforms import StringField, PasswordField, BooleanField, TextAreaField, \
 
 from  wtforms.validators import  Length, Email, Regexp, DataRequired, EqualTo, URL, Optional
 from .models import User, ROLES
+from flask_login import current_user
 
 
 class LoginForm(FlaskForm):
@@ -62,5 +63,11 @@ class UpdateProfileForm(FlaskForm):
     wechat = StringField('Wehcat', validators=[URL(), Optional()])
     weibo = StringField('Weibo', validators=[URL(), Optional()])
 
+class ModifyPasswordForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[DataRequired(), EqualTo('confirm_password', message='password must match')])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
 
-
+    def validate_current_password(self, field):
+        if not current_user.verify_password(field.data):
+            raise ValidationError('Current password is wrong')
