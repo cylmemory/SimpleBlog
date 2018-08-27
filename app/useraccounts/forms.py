@@ -42,7 +42,7 @@ class AddUserForm(FlaskForm):
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 'username must have only letters, numbers dots or underscores')])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo('password2', message='password must match')])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
-    role = SelectField('Role', choices=ROLES)
+    role = SelectField('Role', choices=ROLES, default='reader')
 
     def validate_email(self, field):
         if User.objects.filter(email=field.data).count() > 0:
@@ -55,7 +55,7 @@ class AddUserForm(FlaskForm):
 class UpdateProfileForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1,125), Email()])
     about_me = StringField('About_me')
-    homepage = StringField('HomePage', validators=[URL(), Optional()])
+    homepage_url = StringField('Homepage', validators=[URL(), Optional()])
     github = StringField('Github', validators=[URL(), Optional()])
     facebook = StringField('Facebook', validators=[URL(), Optional()])
     twitter = StringField('Twitter', validators=[URL(), Optional()])

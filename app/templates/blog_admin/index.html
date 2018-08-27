@@ -4,32 +4,49 @@
 <div class="col-md-6 col-md-offset-3">
     <div class="row">
         <table class="table" style="border-collapse:separate; border-spacing:0px 15px;">
-            <thead><h3>About User</h3></thead>
+            <thead>
+            <h3>
+                About User
+                <small><a href="{{ url_for('useraccounts.setting') }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a></small>
+            </h3>
+            </thead>
             <tbody>
                 <tr>
-                    <td>Username</td>
+                    <td>Username:</td>
                     <td>{{ user.username }}</td>
                 </tr>
                 <tr>
-                    <td>Email</td>
+                    <td>Email:</td>
                     <td>{{ user.email }}</td>
                 </tr>
                 <tr>
-                    <td>About_me</td>
+                    <td>About_me:</td>
                     <td>{{ user.about_me }}</td>
                 </tr>
                 <tr>
-                    <td>Homepage</td>
-                    <td>{{ user.homepage_url }}</td>
+                    <td>Homepage:</td>
+                    <td>
+                        {% if user.homepage_url %}
+                        <a href="{{ user.homepage_url }}"><i class="fa fa-home fa-lg"></i></a> {{ user.homepage_url }}
+                        {% else %}
+                        Not yet
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
-                    <td>Social Network</td>
+                    <td>Social Network:</td>
                     <td>
                     {% if user.social_networks['github']['url'] %}
                         <a href='{{ user.social_networks["github"]["url"] }}'><i class="fa fa-github fa-lg"></i></a>
                     {% endif %}
                     {% if user.social_networks['weibo']['url'] %}
                         <a href='{{ user.social_networks["weibo"]["url"] }}'><i class="fa fa-weibo fa-lg"></i></a>
+                    {% endif %}
+                    {% if user.social_networks['twitter']['url'] %}
+                    <a href='{{ user.social_networks["twitter"]["url"] }}'><i class="fa fa-twitter fa-lg"></i></a>
+                    {% endif %}
+                    {% if user.social_networks['facebook']['url'] %}
+                    <a href='{{ user.social_networks["facebook"]["url"] }}'><i class="fa fa-facebook fa-lg"></i></a>
                     {% endif %}
                     {% if user.social_networks['wechat']['url'] %}
                         <a id="btn_weixin" href='{{ user.social_networks["wechat"]["url"] }}'><i class="fa fa-weixin fa-lg"></i></a>

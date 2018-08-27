@@ -94,7 +94,7 @@ class User(MethodView):
 
     def post(self, username):
         form = UserForm(request.form)
-        if form.validate_on_submit():
+        if form.validate():
             user = models.User.objects.get(username=username)
             if user.email != form.email.data:
                 user.confirmed = False
@@ -131,7 +131,7 @@ def add_user():
         user.save()
         flash('Success to add a new user !', 'success')
         return redirect(url_for('useraccounts.users'))
-    return render_template('useraccounts/users.html', form=form)
+    return render_template('useraccounts/add_user.html', form=form)
 
 
 class Profile(MethodView):
@@ -155,8 +155,25 @@ class Profile(MethodView):
         data = self.get_context_data(form)
         return render_template(self.template_name, **data)
 
-    def post(self,username):
-        form = UpdateProfileForm(request.form)
-        if form.validate_on_submit():
-            user = models.User.objects.get(username=username)
+    def post(self):
+        form = UpdateProfileForm(obj=request.form)
+        if form.validate():
+            user = current_user
+            if user.email != form.email.data:
+                user.email = form.email.data
+                user.confirmed = False
+
+            user.about_me = form.about_me.data
+            user.homepage_url = form.homepage_url.data or None
+            user.social_networks['github']['url'] = form.github.data or None
+            user.social_networks['wechat']['url'] = form.wechat.data or None
+            user.social_networks['weibo']['url'] = form.weibo.data or None
+            user.social_networks['twitter']['url'] = form.twitter.data or None
+            user.social_networks['facebook']['url'] = form.facebook.data or None
+            user.save()
+
+            flash('Success to update ！', 'success')
+            return redirect(url_for('blog_admin.index'))
+        return self.get(form)
+
 
