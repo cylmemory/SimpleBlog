@@ -5,6 +5,7 @@ from flask_mongoengine import MongoEngine
 from flask_moment import Moment
 from .config import config
 from flask_principal import Principal
+from flask_mail import Mail
 
 db = MongoEngine()
 moment = Moment()
@@ -13,7 +14,7 @@ login_manager.session_protection = 'basic'
 login_manager.login_view = 'useraccounts.login'
 
 Principals = Principal()
-
+mail = Mail()
 
 def create_app(config_name):
     app = Flask(__name__, template_folder=config[config_name].TEMPLATE_PATH,
@@ -26,6 +27,7 @@ def create_app(config_name):
     moment.init_app(app)
     login_manager.init_app(app)
     Principals.init_app(app)
+    mail.init_app(app)
 
     from .main.urls import main as main_blueprint, blog_admin as blog_admin_blueprint
     app.register_blueprint(main_blueprint)

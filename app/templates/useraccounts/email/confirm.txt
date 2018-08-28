@@ -1,0 +1,13 @@
+Dear {{ user.username }},
+
+Welcome to Simple Blog!
+
+To confirm your email please click on the following link:
+
+{{ url_for('useraccounts.confirm_email', token=token, _external=True) }}
+
+Sincerely,
+
+Simple Blog Developer
+
+Note: replies to this email address are not monitored.
