@@ -190,5 +190,39 @@ def update_password():
     return render_template('useraccounts/update_password.html', form=form)
 
 
+class Password(MethodView):
+    template_name = 'useraccounts/update_password.html'
+    decorators = [login_required]
+
+    def get(self, form=None):
+        if not form:
+            form = ModifyPasswordForm()
+        user = current_user
+        data = {'form': form, 'user': user}
+
+        return render_template(self.template_name, **data)
+
+    def post(self):
+        form = None
+
+        if request.form.get('update'):
+
+            form = ModifyPasswordForm(obj=request.form)
+            if form.validate():
+                user = current_user
+                if form.current_password.data != form.confirm_password.data:
+                    user.password = form.confirm_password.data
+                    user.save()
+                    flash('success to update!', 'success')
+                    return  redirect(url_for('useraccounts.password'))
+
+                flash('New password is as same as current password.Please enter again!', 'danger')
+        return self.get(form)
+
+
+
+
+
+
 
 

@@ -14,7 +14,7 @@
         </div>
         <div class="col-xs-6 col-sm-9">
             {% import '_form.html' as forms %}
-            <form class="profile" action="" method="post">
+            <form id="profile" action="" method="POST">
                 {{ forms.render(form) }}
                 <button type="submit" class="btn btn-primary" name="update">update</button>
             </form>
