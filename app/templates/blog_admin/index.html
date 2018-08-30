@@ -17,7 +17,11 @@
                 </tr>
                 <tr>
                     <td>Email:</td>
-                    <td>{{ user.email }}</td>
+                    <td>{{ user.email }}<br>
+                        {% if user.confirmed == False %}
+                        <span>Please check <a href="#">here</a> to confirm your account.</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>About_me:</td>
