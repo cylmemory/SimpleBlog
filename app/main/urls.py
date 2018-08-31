@@ -9,3 +9,4 @@ main.add_url_rule('/', 'index', views.index)
 
 blog_admin = Blueprint('blog_admin', __name__)
 blog_admin.add_url_rule('/', view_func=admin_view.AdminIdx.as_view('index'))
+blog_admin.add_url_rule('/confirm/', 'confirm_email', admin_view.send_confirmation, methods=['GET', 'POST'])

@@ -12,12 +12,15 @@ BlogSettings = {
 
 
 class Config(object):
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'fjdljLJDL08_80jflKzcznv*c'
-    MONGODB_SETTINGS = {'DB': 'Tools'}
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'fjdlj324fs5ssjflKzcznv*c'
+    MONGODB_SETTINGS = {'DB': 'SimpleBlog'}
 
     TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates').replace('\\', '/')
     STATIC_PATH = os.path.join(BASE_DIR, 'static').replace('\\', '/')
     EXPORT_PATH = os.path.join(BASE_DIR, 'exports').replace('\\', '/')
+
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
     if not os.path.exists(EXPORT_PATH):
         os.makedirs(EXPORT_PATH)
@@ -34,7 +37,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
     MONGODB_SETTINGS = {
-        'db': os.environ.get('DB_NAME') or 'Tools',
+        'db': os.environ.get('DB_NAME') or 'SimpleBlog',
         'host': os.environ.get('MONGO_HOST') or 'localhost',
         }
 
