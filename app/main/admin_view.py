@@ -19,14 +19,37 @@ class AdminIdx(MethodView):
         return render_template(self.template_name, user=user)
 
 
-@login_required
-def send_confirmation():
-    if current_user.email:
-        token = current_user.generate_confirmation_token()
-        email.send_confirm_email(current_user.email, current_user, token)
-        current_user.confirm_send_time = datetime.datetime.now()
-        current_user.save()
-        flash('A confirmation email has been sent to you by email,  please check your email to confirm.', 'success')
-    else:
-        flash('Please set your email first!', 'danger')
-    return render_template('blog_admin/index.html', user=current_user)
+class SendConfirmation(MethodView):
+    decorators = [login_required]
+    template_name = 'blog_admin/index.html'
+
+    def get(self):
+        user = get_current_user()
+        return render_template(self.template_name, user=user)
+
+    def post(self):
+        if current_user.email:
+            token = current_user.generate_confirmation_token()
+            email.send_confirm_email(current_user.email, current_user, token)
+            current_user.confirm_send_time = datetime.datetime.now()
+            current_user.save()
+            flash('A confirmation email has been sent to you by email,  please check your email to confirm.', 'success')
+        else:
+            flash('Please set your email first!', 'danger')
+
+        return self.get()
+
+
+class ConfirmEmail(MethodView):
+    decorators = [login_required]
+
+    def get(self, token):
+        if current_user.is_email_confirmed:
+            return redirect(url_for('blog_admin.index'))
+
+        if current_user.confirm_email(token):
+            flash('Your email has been confirmed', 'success')
+        else:
+            flash('The confirmation link is invalid or has expired', 'danger')
+
+        return redirect(url_for('blog_admin.index'))

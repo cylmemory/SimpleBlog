@@ -43,6 +43,18 @@ class User(UserMixin, db.Document):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.username})
 
+    def confirm_email(self, token, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except Exception:
+            return False
+        if data.get('confirm') != self.username:
+            return False
+        self.confirmed = True
+        self.save()
+        return True
+
     def get_id(self):
         try:
             return self.username
