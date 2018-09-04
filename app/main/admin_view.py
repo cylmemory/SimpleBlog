@@ -39,7 +39,7 @@ class ConfirmEmail(MethodView):
     decorators = [login_required]
 
     def get(self, token):
-        if current_user.is_email_confirmed:
+        if current_user.confirmed:
             return redirect(url_for('blog_admin.index'))
 
         if current_user.confirm_email(token):

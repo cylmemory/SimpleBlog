@@ -19,6 +19,15 @@ class Config(object):
     STATIC_PATH = os.path.join(BASE_DIR, 'static').replace('\\', '/')
     EXPORT_PATH = os.path.join(BASE_DIR, 'exports').replace('\\', '/')
 
+    # email server
+    ##############
+    # If using STARTTLS with MAIL_USE_TLS = True, then use MAIL_PORT = 587.
+    # If using SSL/TLS directly with MAIL_USE_SSL = True, then use MAIL_PORT = 465.
+    ##############
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', 465))
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'false').lower() == 'true'
+    MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL', 'true').lower() == 'true'
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 

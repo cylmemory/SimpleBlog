@@ -4,7 +4,7 @@ Welcome to Simple Blog!
 
 To confirm your email please click on the following link:
 
-
+{{ url_for('blog_admin.confirm_email', token=token, _external=True) }}
 
 Sincerely,
 
