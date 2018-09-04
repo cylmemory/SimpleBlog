@@ -27,6 +27,7 @@ class User(UserMixin, db.Document):
     about_me = db.StringField()
     social_networks = db.DictField(default=SOCIAL_NETWORKS)
     homepage_url = db.URLField()
+    confirm_send_time = db.DateTimeField()
 
     @property
     def password(self):

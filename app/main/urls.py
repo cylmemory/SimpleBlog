@@ -9,5 +9,5 @@ main.add_url_rule('/', 'index', views.index)
 
 blog_admin = Blueprint('blog_admin', __name__)
 blog_admin.add_url_rule('/', view_func=admin_view.AdminIdx.as_view('index'))
-blog_admin.add_url_rule('/send-confirm/', view_func=admin_view.SendConfirmation.as_view('send_confirm'))
+blog_admin.add_url_rule('/send-confirm/', 'send_confirm', admin_view.send_confirmation)
 blog_admin.add_url_rule('/email-confirm/<token>/', view_func=admin_view.ConfirmEmail.as_view('confirm_email'))

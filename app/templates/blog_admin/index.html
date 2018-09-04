@@ -19,7 +19,7 @@
                     <td>Email:</td>
                     <td>{{ user.email }}<br>
                         {% if user.confirmed == False %}
-                        <span>Please check <a href="{{ url_for('blog_admin.send_confirm') }}" method="POST">here</a> to confirm your account.</span>
+                        <span>Please check <a href="{{ url_for('blog_admin.send_confirm') }}">here</a> to confirm your account.</span>
                         {% endif %}
                     </td>
                 </tr>
