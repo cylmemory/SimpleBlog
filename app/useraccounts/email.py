@@ -31,3 +31,11 @@ def send_confirm_email(to, user, token):
     template_html = 'useraccounts/email/confirm.html'
 
     return send_email(to, title, template_txt, template_html, user=user, token=token)
+
+
+def send_reset_password_mail(to, user, token):
+    title = 'Simple Blog reset user password'
+    template_txt = 'useraccounts/email/reset_password.txt'
+    template_html = 'useraccounts/email/reset_password.html'
+
+    return send_email(to, title, template_txt, template_html, user=user, token=token)

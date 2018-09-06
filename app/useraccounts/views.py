@@ -3,14 +3,15 @@
 
 from flask import redirect, render_template, url_for, request, g, flash, session, current_app, abort
 from . import models
-from .forms import LoginForm, RegistrationForm, UserForm, AddUserForm, UpdateProfileForm, ModifyPasswordForm
+from .forms import LoginForm, RegistrationForm, UserForm, AddUserForm, UpdateProfileForm, ModifyPasswordForm, \
+    ResetPasswordRequestForm, ResetPasswordForm
 from flask_login import login_user, logout_user, current_user, login_required
 import datetime
 from flask_principal import identity_changed, Identity, AnonymousIdentity
 from ..config import BlogSettings
 from .permissions import admin_Permission, su_Permission
 from flask.views import MethodView
-
+from . import email
 
 def login():
     if current_user.is_authenticated:
@@ -220,9 +221,61 @@ class Password(MethodView):
         return self.get(form)
 
 
+class ResetPasswordRequest(MethodView):
+    template_name = 'useraccounts/reset_password.html'
+
+    def get(self, form=None):
+        if not current_user.is_anonymous:
+            return redirect(url_for('blog_admin.index'))
+        if not form:
+            form = ResetPasswordRequestForm()
+        data = {'form': form}
+        return render_template(self.template_name, **data)
+
+    def post(self):
+        form = ResetPasswordRequestForm(obj=request.form)
+
+        if form.validate():
+            user = models.User.objects(email=form.email.data.strip()).first()
+            if user:
+                token = user.generate_reset_token()
+                email.send_reset_password_mail(user.email, user, token)
+                flash('An email with instructions to reset your password has been sent to you')
+                return redirect(url_for('useraccounts.login'))
+
+            flash('User does not exist!', 'danger')
+            return redirect(url_for('useraccounts.register'))
+
+        return self.get(form)
 
 
+class ResetPassword(MethodView):
+    template_name = 'useraccounts/reset_password.html'
 
+    def get(self, token, form=None):
+        if not current_user.is_anonymous:
+            return redirect(url_for('blog_admin.index'))
+
+        if not form:
+            form = ResetPasswordForm()
+        data = {'form': form}
+
+        return render_template(self.template_name, **data)
+
+    def post(self, token):
+        form = ResetPasswordForm(obj=request.form)
+
+        if form.validate():
+            flag = models.User.reset_password(token, form.new_password.data)
+
+            if flag:
+                flash('Your password has been updated.')
+            else:
+                flash('Fail to update your password')
+
+            return redirect(url_for('useraccounts.login'))
+
+        return self.get(form)
 
 
 

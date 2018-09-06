@@ -56,6 +56,30 @@ class User(UserMixin, db.Document):
         self.save()
         return True
 
+    def generate_reset_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'reset': self.username})
+
+    @staticmethod
+    def reset_password(token, new_password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+
+        except Exception:
+            return False
+
+        try:
+            user = User.objects.get(username=data.get('reset'))
+
+        except Exception:
+            return False
+
+        user.password = new_password
+        user.save()
+
+        return True
+
     def get_id(self):
         try:
             return self.username

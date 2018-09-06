@@ -48,3 +48,4 @@ class ConfirmEmail(MethodView):
             flash('The confirmation link is invalid or has expired', 'danger')
 
         return redirect(url_for('blog_admin.index'))
+
