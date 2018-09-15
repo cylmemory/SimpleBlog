@@ -1,10 +1,11 @@
 from flask import request, redirect, render_template, url_for, abort, flash, g, current_app, send_from_directory
 from flask.views import MethodView
 from flask_login import login_required, current_user
-from ..useraccounts.models import User
+from ..useraccounts.models import User, Post
 from ..useraccounts import email
 import datetime
-
+from ..useraccounts.permissions import writer_Permission
+from . import models
 
 def get_current_user():
     user = User.objects.get(username=current_user.get_id())
@@ -48,4 +49,21 @@ class ConfirmEmail(MethodView):
             flash('The confirmation link is invalid or has expired', 'danger')
 
         return redirect(url_for('blog_admin.index'))
+
+class Post(MethodView):
+    decorators = [login_required, writer_Permission.require(401)]
+    template_name = "blog_admin/post.html"
+
+    def get(self, post_id=None, form=None, status=0):
+        edit_flag = post_id is not None or False
+        post = None
+
+
+        if edit_flag:
+            try:
+                post = models.Post.objects.get(id=post_id)
+            except models.Post.DoesNotExist:
+                post = models.Post.objects.get_or_404(id=post_id)
+
+
 
