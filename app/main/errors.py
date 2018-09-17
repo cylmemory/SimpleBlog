@@ -7,4 +7,4 @@ def handle_forbidden(e):
 
 # 401 Authorization acess
 def handle_unauthorized(e):
-    return render_template('blog_admin/401', msg=e.description), 401
+    return render_template('blog_admin/401.html'), 401

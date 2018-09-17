@@ -1,11 +1,11 @@
 from flask import request, redirect, render_template, url_for, abort, flash, g, current_app, send_from_directory
 from flask.views import MethodView
 from flask_login import login_required, current_user
-from ..useraccounts.models import User, Post
+from ..useraccounts.models import User
 from ..useraccounts import email
 import datetime
-from ..useraccounts.permissions import writer_Permission
-from . import models
+from ..useraccounts.permissions import writer_Permission, editor_Permission
+from . import models, forms
 
 def get_current_user():
     user = User.objects.get(username=current_user.get_id())
@@ -58,12 +58,29 @@ class Post(MethodView):
         edit_flag = post_id is not None or False
         post = None
 
-
         if edit_flag:
             try:
                 post = models.Post.objects.get(id=post_id)
             except models.Post.DoesNotExist:
                 post = models.Post.objects.get_or_404(id=post_id)
+
+            if not g.identity.can(editor_Permission) and Post.author.username != current_user.username:
+                abort(401)
+
+        if not form:
+            if post:
+                post.post_id = str(post.id)
+                post.tags = ', '.join(post.tags)
+                form = forms.PostForm(obj=post)
+            else:
+                form = forms.PostForm()
+
+        categories = models.Post.objects(status=status).distinct('category')
+        tags = models.Post.objects(status=status).distinct('tags')
+
+        context = {'edit_flag': edit_flag, 'form': form, 'categories': categories, 'tags': tags}
+
+        return render_template(self.template_name, **context)
 
 
 
