@@ -24,7 +24,6 @@
                 {{ form.title.label }}
                 {{ form.title(class_="form-control") }}
                 </div>
-
                 <div class="form-group">
                 {{ form.abstract.label }}
                 {{ form.abstract(class_="form-control", rows=5) }}
@@ -36,10 +35,10 @@
                 </div>
 
             </div>
-
             <div class="row">
                 <div class="col-md-5">
                     <span>Tags</span>
+                    <br>
                     <div class="input-group">
                           {{ form.tags(class_="form-control") }}
                           <div class="input-group-btn">
@@ -55,7 +54,8 @@
 
                 <div class="col-md-5">
                     <span>Category</span>
-                        <div class="input-group">
+                    <br>
+                    <div class="input-group">
                           {{ form.category(class_="form-control") }}
                           <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
@@ -67,8 +67,9 @@
                           </div><!-- /btn-group -->
                         </div>
                 </div>
+
             </div>
-            <br><br><br><br>
+            <br><br>
             <div class="row">
                 <button type="submit" class="btn btn-primary" name="publish" value="publish">Publish</button>
                 <button type="submit" class="btn btn-success" name="draft" value="draft">Save draft</button>
