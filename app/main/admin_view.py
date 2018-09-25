@@ -6,6 +6,9 @@ from ..useraccounts import email
 import datetime
 from ..useraccounts.permissions import writer_Permission, editor_Permission
 from . import models, forms
+from ..config import BlogSettings
+
+PER_PAGE = BlogSettings['paginate'].get('admin_per_page', 10)
 
 def get_current_user():
     user = User.objects.get(username=current_user.get_id())
@@ -82,5 +85,60 @@ class Post(MethodView):
 
         return render_template(self.template_name, **context)
 
+    def post(self, post_id=None, form=None, status=0):
+        form = forms.PostForm(obj=request.form)
+        if not form.validate():
+            return self.get(post_id, form)
 
+        try:
+            post = models.Post.objects.get_or_404(id=post_id)
+
+        except:
+            post = models.Post()
+            post.author = get_current_user()
+
+        post.title = form.title.data.strip()
+        post.content = form.content.data.strip()
+        post.abstract = form.abstract.data.strip() if form.abstract.data.strip() else post.content[:140]
+        post.category = form.category.data.strip() if form.category.data.strip() else None
+        post.tags = [tag.strip() for tag in form.tags.data.split(',')] if form.tags.data else None
+
+        if request.form.get('publish'):
+            post.status = 0
+            post.save()
+            msg = 'Succeed to publish the post'
+            redirect_url = url_for('blog_admin.posts')
+
+        elif request.form.get('draft'):
+            post.status = 1
+            post.save()
+            msg = 'Succeed to publish the draft'
+            redirect_url = url_for('blog_admin.drafts')
+
+        flash(msg, 'success')
+        return redirect(redirect_url)
+
+class PostLists(MethodView):
+    decorators = [login_required]
+    template_name = 'blog_admin/posts.html'
+    status = 0
+
+    def get(self):
+        posts = models.Post.objects.filter(status=self.status).order_by('-modify_time')
+
+        if not g.identity.can(editor_Permission):
+            posts = posts.filter(author=get_current_user())
+
+
+        try:
+            cur_page = int(request.args.get('page',1))
+        except:
+            cur_page = 1
+
+        posts = posts.paginate(page=cur_page, per_page=PER_PAGE)
+
+        return render_template(self.template_name, posts=posts, status=self.status)
+
+class DraftLists(PostLists):
+    status = 1
 

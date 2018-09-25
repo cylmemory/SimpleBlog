@@ -1,0 +1,62 @@
+{% extends "login_base.html" %}
+{% block title %}{% if status == 0 %} Posts {% elif status == 1 %} Drafts {% else %} Posts {% endif %}{% endblock %}
+{% block js %}
+<script type="text/javascript">
+$('.del-post').on('click',function (event) {
+    var url = $(this).attr('href');
+    url = url + '?delete_tag=true';
+    bootbox.confirm("Are you sure ?", function (result) {
+        if(result){
+            $.ajax({
+                url:url,
+                type:'DELETE',
+                success:function (result) {
+                    location.reload()
+                }
+            });
+        }
+    });
+    return false;
+})
+</script>
+{% endblock %}
+{% block main %}
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th style="width: 15%" >Title</th>
+                <th>Abstract</th>
+                <th>Author</th>
+                <th style="width: 10%">Publish</th>
+                <th style="width: 10%">Update</th>
+                <th style="width: 5%">M&D</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts.items %}
+            <tr id="post-{{ post.id }}">
+                <td>{{ loop.index }}</td>
+                <td>
+                    <a href="#" target="_blank">{{ post.title }}</a>
+                </td>
+                <td>{{ post.abstract }}</td>
+                <td>{{ post.author.username }}</td>
+                <td>{{ post.create_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ post.modify_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    <a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
+                    &nbsp
+                    <a href="#"  class="del-post"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" style="text-align: left">{% if status == 0 %} No posts yet {% else %} No drafts yet {% endif %}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% import '_pagination.html' as pagination %}
+    {{ pagination.render_pagination(posts) }}
+</div>
+{% endblock %}

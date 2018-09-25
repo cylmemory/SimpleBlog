@@ -7,13 +7,17 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 BlogSettings = {
-    'allow_admin_creation': os.environ.get('allow_admin_creation', 'true').lower() == 'true'
+    'allow_admin_creation': os.environ.get('allow_admin_creation', 'true').lower() == 'true',
+    'paginate':{
+        'per_page':int(os.environ.get('per_page', 5)),
+        'admin_per_page': int(os.environ.get('admin_per_page', 10)),
+    }
 }
 
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'fjdlj324fs5ssjflKzcznv*c'
-    MONGODB_SETTINGS = {'DB': 'Tools'}
+    MONGODB_SETTINGS = {'DB': 'SimpleBlog'}
 
     TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates').replace('\\', '/')
     STATIC_PATH = os.path.join(BASE_DIR, 'static').replace('\\', '/')
@@ -46,7 +50,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
     MONGODB_SETTINGS = {
-        'db': os.environ.get('DB_NAME') or 'Tools',
+        'db': os.environ.get('DB_NAME') or 'SimpleBlog',
         'host': os.environ.get('MONGO_HOST') or 'localhost',
         }
 
