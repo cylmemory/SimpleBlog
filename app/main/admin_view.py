@@ -85,8 +85,8 @@ class Post(MethodView):
 
         return render_template(self.template_name, **context)
 
-    def post(self, post_id=None, form=None, status=0):
-        form = forms.PostForm(obj=request.form)
+    def post(self, post_id=None, status=0):
+        form = forms.PostForm(request.form)
         if not form.validate():
             return self.get(post_id, form)
 
