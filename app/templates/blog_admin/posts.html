@@ -4,7 +4,7 @@
 <script type="text/javascript">
 $('.del-post').on('click',function (event) {
     var url = $(this).attr('href');
-    url = url + '?delete_tag=true';
+    url = url + '&ajax=true';
     bootbox.confirm("Are you sure ?", function (result) {
         if(result){
             $.ajax({
@@ -29,8 +29,8 @@ $('.del-post').on('click',function (event) {
                 <th style="width: 15%" >Title</th>
                 <th>Abstract</th>
                 <th>Author</th>
-                <th style="width: 10%">Publish</th>
-                <th style="width: 10%">Update</th>
+                <th style="width: 12%">Publish</th>
+                <th style="width: 12%">Update</th>
                 <th style="width: 5%">M&D</th>
             </tr>
         </thead>
@@ -43,12 +43,12 @@ $('.del-post').on('click',function (event) {
                 </td>
                 <td>{{ post.abstract }}</td>
                 <td>{{ post.author.username }}</td>
-                <td>{{ post.create_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                <td>{{ post.modify_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ post.create_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ post.modify_time.strftime('%Y-%m-%d %H:%M') }}</td>
                 <td>
-                    <a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
+                    <a href="{{ url_for('blog_admin.edit_post', post_id=post.id)}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
                     &nbsp
-                    <a href="#"  class="del-post"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
+                    <a href="{{ url_for('blog_admin.edit_post', post_id=post.id) }}?delete_tag={{ post.status }}"  class="del-post"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
                 </td>
             </tr>
             {% else %}

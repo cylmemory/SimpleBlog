@@ -118,6 +118,22 @@ class Post(MethodView):
         flash(msg, 'success')
         return redirect(redirect_url)
 
+    def delete(self, post_id):
+        post = models.Post.objects.get_or_404(id=post_id)
+        post.delete()
+
+        if request.args.get('delete_tag') == '0':
+            redirect_url = url_for('blog_admin.posts')
+            flash('Succeed to delete the post', 'success')
+        else:
+            redirect_url = url_for('blog_admin.drafts')
+            flash('Succeed to delete the draft', 'success')
+
+        if request.args.get('ajax'):
+            return 'success'
+
+        return redirect(redirect_url)
+
 class PostLists(MethodView):
     decorators = [login_required]
     template_name = 'blog_admin/posts.html'
@@ -131,13 +147,14 @@ class PostLists(MethodView):
 
 
         try:
-            cur_page = int(request.args.get('page',1))
+            cur_page = int(request.args.get('page', 1))
         except:
             cur_page = 1
 
         posts = posts.paginate(page=cur_page, per_page=PER_PAGE)
 
         return render_template(self.template_name, posts=posts, status=self.status)
+
 
 class DraftLists(PostLists):
     status = 1

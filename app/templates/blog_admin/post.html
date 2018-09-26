@@ -20,7 +20,7 @@
                 {% import "_form.html" as forms %}
                 {{ form.csrf_token() }}
                 {{ form.post_id() }}
-                {{ form.status }}
+                {{ form.status() }}
                 {% if form.title.errors %}
                     <div class="clearfix has-error form-group">
                     {{ form.title.label }}

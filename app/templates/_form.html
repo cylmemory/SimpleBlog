@@ -27,6 +27,7 @@
         {% else %}
           {{ field(class_="form-control") }}
         {% endif %}
+
         {% if field.errors or field.help_text %}
           <span class="help-block">
           {% if field.errors %}
