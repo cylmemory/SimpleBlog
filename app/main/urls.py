@@ -4,7 +4,7 @@ from . import views, admin_view, errors
 
 main = Blueprint('main', __name__)
 
-main.add_url_rule('/', 'index', views.index)
+main.add_url_rule('/', 'index', views.list_post)
 
 
 blog_admin = Blueprint('blog_admin', __name__)
