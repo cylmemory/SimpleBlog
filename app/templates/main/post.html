@@ -26,7 +26,7 @@
     <div class="container">
         <article>
             <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {{ post.content_html|safe }}
                 </div>
             </div>
@@ -35,8 +35,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <hr>
-                    <span>Share to:</span>
-                    <div class="share-component" data-sites="weibo,wechat,douban,twitter,qq,google,facebook,linkedin"></div>
+                    <div class="share-component" data-sites="weibo,wechat,douban,twitter,qq,google,facebook,linkedin"><span>Share to:</span></div>
                     <hr>
                 </div>
             </div>

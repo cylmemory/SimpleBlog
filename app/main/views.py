@@ -1,8 +1,9 @@
-from flask import redirect, render_template, url_for, request, g, flash, session
+from flask import redirect, render_template, url_for, request, g, flash, session, abort
 from flask.views import MethodView
 from . import models
 from mongoengine.queryset.visitor import Q
 from ..config import BlogSettings
+from flask_login import current_user
 
 PER_PAGE = BlogSettings['paginate'].get('per_page', 10)
 
@@ -52,3 +53,17 @@ def list_post():
     data['cursor_for_category'] = cursor_for_category
 
     return render_template('main/index.html', **data)
+
+
+def post_detail(id):
+    post = models.Post.objects.get_or_404(id=id)
+
+    if post.status == 1 and current_user.is_anonymous:
+        abort(404)
+    data = {}
+    data['allow_share_article'] = BlogSettings['allow_share_article']
+    data['post'] = post
+
+    template_name = 'main/post.html'
+
+    return render_template(template_name, **data)

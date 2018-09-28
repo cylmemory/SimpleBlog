@@ -11,7 +11,8 @@ BlogSettings = {
     'paginate':{
         'per_page':int(os.environ.get('per_page', 5)),
         'admin_per_page': int(os.environ.get('admin_per_page', 10)),
-    }
+    },
+    'allow_share_article': os.environ.get('allow_share_article', 'true').lower() == 'true',
 }
 
 
