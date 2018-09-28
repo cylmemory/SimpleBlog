@@ -12,3 +12,9 @@
 .label-default{
     background-color: #337ab7;
 }
+.float-in-right{
+    float: right!important;
+}
+.float-in-left{
+    float: left!important;
+}
