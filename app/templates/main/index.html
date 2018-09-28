@@ -26,18 +26,15 @@
                 No articles found here
             </p>
         {% endfor %}
-
-        {% if posts.has_next %}
+        <hr>
             <div class="clearfix">
+            {% if posts.has_prev %}
+                <a class="btn btn-primary float-left" href="#"> &larr;Previous Posts</a>
+            {% endif %}
+            {% if posts.has_next %}
                 <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+            {% endif %}
             </div>
-        {% endif %}
-
-        {% if posts.has_prev %}
-            <div class="clearfix">
-                <a class="btn btn-primary float-left" href="#">Previous Posts &larr;</a>
-            </div>
-        {% endif %}
         </div>
         <div class="col-lg-3 col-md-2">
             <h3>Search</h3>
@@ -68,8 +65,8 @@
                     </span>
 
                     {% endif %}
-
                 </a>
+                &nbsp;
             {% endfor %}
 
 

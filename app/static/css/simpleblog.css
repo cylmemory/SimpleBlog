@@ -5,3 +5,10 @@
 .group-list{
     border: 0px;
 }
+
+.badge{
+    background-color: #47c1308a;
+}
+.label-default{
+    background-color: #337ab7;
+}

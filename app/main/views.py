@@ -4,7 +4,7 @@ from . import models
 from mongoengine.queryset.visitor import Q
 from ..config import BlogSettings
 
-PER_PAGE = BlogSettings['paginate'].get('admin_per_page', 10)
+PER_PAGE = BlogSettings['paginate'].get('per_page', 10)
 
 
 def index():
