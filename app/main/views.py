@@ -27,7 +27,7 @@ def list_post():
         posts = posts.filter(category=cur_category)
 
     if cur_kws:
-        posts.filter(Q(title__icontains=cur_kws) | Q(content__icontains=cur_kws))
+        posts = posts.filter(Q(content__icontains=cur_kws) | Q(title__icontains=cur_kws) | Q(abstract__icontains=cur_kws))
 
     # use mongoengine's _get_collection() function to query aggregate
     cursor_for_category = models.Post._get_collection().aggregate([

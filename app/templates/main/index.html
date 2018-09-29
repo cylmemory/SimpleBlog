@@ -29,10 +29,15 @@
         <hr>
             <div class="clearfix">
             {% if posts.has_prev %}
-                <a class="btn btn-primary float-in-left" href="#"> &larr;Previous Posts</a>
+                <a class="btn btn-primary float-in-left" href="?page={{ posts.prev_num }}
+                        {%- if cur_category %}&category={{ cur_category }}{% endif %}
+                        {%- if keywords %}&keywords={{ keywords }}{% endif %}
+                        {%- if cur_tag %}&tag={{ cur_tag }}{% endif %}"> &larr;Previous Posts</a>
             {% endif %}
             {% if posts.has_next %}
-                <a class="btn btn-primary float-in-right" href="#">Older Posts &rarr;</a>
+                <a class="btn btn-primary float-in-right" href="?page={{ posts.next_num }}
+                        {%- if cur_category %}&category={{ cur_category }}{% endif %}
+                        {%- if cur_tag %}&tag={{ cur_tag }}{% endif %}">Older Posts &rarr;</a>
             {% endif %}
             </div>
         </div>
@@ -42,8 +47,8 @@
             <form id="search-form">
               <div class="form-group">
                 <div class="input-group">
-                  <div class="input-group-addon"><i class="fa fa-search"></i></div>
                   <input type="text" class="form-control" id="search" name="keywords" placeholder="search" value="{% if keywords %}{{ keywords }}{% endif %}">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
                 </div>
               </div>
             </form>
@@ -52,7 +57,7 @@
             <h3>Tags</h3>
             <hr/>
             {% for tag in tags %}
-                <a href="#" class="post-tag">
+                <a href="?tag={{tag}}" class="post-tag">
                     {% if tag == cur_tag %}
                     <span class="label label-primary">
                         {{ tag }}
@@ -76,11 +81,11 @@
                 {% for category in cursor_for_category %}
                     {% if category and category.name %}
                         {% if cur_category == category.name %}
-                            <a href="#" class="list-group-item category-list active">{{ category.name }}
+                            <a href="?category={{ category.name }}" class="list-group-item category-list active">{{ category.name }}
                             <small><span class="glyphicon glyphicon-remove small rm-filter" aria-hidden="true"></span></small>
                             <span class="badge">&nbsp;{{ category.count }}&nbsp;</span></a>
                         {% else %}
-                            <a href="#" class="list-group-item category-list ">{{ category.name }}
+                            <a href="?category={{ category.name }}" class="list-group-item category-list ">{{ category.name }}
                             <span class="badge">&nbsp;{{ category.count }}&nbsp;</span></a>
                         {% endif %}
                     {% endif %}
