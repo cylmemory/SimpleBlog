@@ -2,23 +2,24 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block header %}
-<header class="intro-header" style="background-image: url({{ url_for('static',filename='img/bg/home-bg.jpg') }})">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>{{ post.title }}</h1>
-                        <span class="meta">Posted by <a href="#">{{ post.author.username }}</a> on {{ moment(post.create_time).format('YYYY/MM/DD, h:mm a') }}</span>
-                        {% if post.category%}
-                        <span class="meta">Category: <a href="#">{{ post.category }}</a></span>
-                        {% endif %}
-                        <span class="meta">Tags:
-                            {% for tag in post.tags %} <a href="#">{{ tag }}</a>  {% endfor %}
-                        </span>
-                    </div>
-                </div>
+<header class="masthead" style="background-image: url({{ url_for('static',filename='img/bg/home-bg.jpg') }})">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>{{ post.title }}</h1><br>
+                <span class="meta">Posted by <a href="#">{{ post.author.username }}</a> on {{ moment(post.create_time).format('YYYY/MM/DD, h:mm a') }}</span>
+                {% if post.category%}
+                <span class="meta">Category: <a href="#">{{ post.category }}</a></span>
+                {% endif %}
+                <span class="meta">Tags:
+                    {% for tag in post.tags %} <a href="#">{{ tag }}</a>  {% endfor %}
+                </span>
             </div>
+          </div>
         </div>
+      </div>
     </header>
 {% endblock %}
 
@@ -35,11 +36,14 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <hr>
-                    <div class="share-component" data-sites="weibo,wechat,douban,twitter,qq,google,facebook,linkedin"><span>Share to:</span></div>
+                    <div class="share-component" data-sites="wechat,weibo,qq,douban,twitter,google,facebook,linkedin"><span>Share to:</span></div>
                     <hr>
                 </div>
             </div>
             {% endif %}
         </article>
     </div>
+{% endblock %}
+{% block js %}
+<script src="https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js"></script>
 {% endblock %}

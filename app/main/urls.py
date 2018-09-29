@@ -6,7 +6,7 @@ main = Blueprint('main', __name__)
 
 main.add_url_rule('/', 'index', views.list_post)
 main.add_url_rule('/posts/', 'posts', views.list_post)
-main.add_url_rule('/post/<id>/', 'post_detail', views.post_detail, methods=['GET', 'POST'])
+main.add_url_rule('/post/<post_id>/', 'post_detail', views.post_detail, methods=['GET', 'POST'])
 
 
 blog_admin = Blueprint('blog_admin', __name__)

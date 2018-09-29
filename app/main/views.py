@@ -55,8 +55,8 @@ def list_post():
     return render_template('main/index.html', **data)
 
 
-def post_detail(id):
-    post = models.Post.objects.get_or_404(id=id)
+def post_detail(post_id):
+    post = models.Post.objects.get_or_404(id=post_id)
 
     if post.status == 1 and current_user.is_anonymous:
         abort(404)
