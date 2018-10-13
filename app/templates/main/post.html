@@ -37,11 +37,20 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <hr>
                     <div class="share-component" data-sites="wechat,weibo,qq,douban,twitter,google,facebook,linkedin"><span>Share to:</span></div>
-                    <hr>
                 </div>
             </div>
             {% endif %}
         </article>
+        <hr>
+        {% if allow_comment %}
+            <article>
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        {{ comment_html|safe }}
+                    </div>
+                </div>
+            </article>
+        {% endif %}
     </div>
 {% endblock %}
 {% block js %}

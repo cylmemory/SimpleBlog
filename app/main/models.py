@@ -1,10 +1,10 @@
 from .. import db
 from ..useraccounts.models import User
 import markdown2 as Markdown, bleach
-import datetime
+import datetime, hashlib, urllib
 
-
-post_status = ((0, 'post'), (1, 'draft'))
+post_status = ((0,
+                'post'), (1, 'draft'))
 
 
 def get_clean_html_content(html_content):
@@ -45,3 +45,46 @@ class Post(db.Document):
 
         return super(Post, self).save(*args, **kwargs)
 
+
+class Comment(db.Document):
+    post_id = db.StringField(required=True)
+    post_title = db.StringField()
+    author = db.StringField(required=True)
+    email = db.EmailField(max_length=255)
+    body = db.StringField()
+    body_html = db.StringField()
+    create_time = db.DateTimeField()
+    disabled = db.BooleanField(default=False)
+    replay_to = db.ReferenceField('self')
+    gavatar_id = db.StringField(default='00000000000')
+
+    def save(self, *args, **kwargs):
+        if self.body:
+            body_html = Markdown.markdown(self.body, extras=['code-friendly', 'fenced-code-blocks', 'tables'])
+            self.body_html = get_clean_html_content(body_html)
+
+        if self.email:
+            self.gavatar_id = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+
+        if not self.create_time:
+            self.create_time=datetime.datetime.utcnow()
+
+    def get_gavatar_url(self, img_size=0, default_image_url=None):
+        gavatar_url = '//s.gravatar.com/avatar/' + self.gavatar_id
+        params = {}
+        if img_size:
+            params['s'] = str(img_size)
+        if default_image_url:
+            params['d'] = default_image_url
+
+        if params:
+            gavatar_url = '{0}?{1}'.format(gavatar_url, urllib.urlencode(params))
+
+        return gavatar_url
+
+    def __unicode__(self):
+        return self.body[:64]
+
+    meta = {
+        'ordering': ['-create_time']
+    }

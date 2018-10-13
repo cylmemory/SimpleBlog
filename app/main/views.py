@@ -1,6 +1,6 @@
 from flask import redirect, render_template, url_for, request, g, flash, session, abort
 from flask.views import MethodView
-from . import models
+from . import models, forms
 from mongoengine.queryset.visitor import Q
 from ..config import BlogSettings
 from flask_login import current_user
@@ -62,8 +62,31 @@ def post_detail(post_id):
         abort(404)
     data = {}
     data['allow_share_article'] = BlogSettings['allow_share_article']
+    data['allow_comment'] = BlogSettings['allow_comment']
     data['post'] = post
 
+    if request.form:
+        form = forms.CommentForm(obj=request.form)
+    else:
+        obj = {'email': session.get('email'), 'author': session.get('author'),}
+        form = forms.CommentForm(**obj)
+
+    if data['allow_comment']:
+        data['comment_html'] = post_comment(post_id, form) if post_comment else ''
+
     template_name = 'main/post.html'
+
+    return render_template(template_name, **data)
+
+
+def post_comment(post_id, form=None, *args, **kwargs):
+    template_name = 'main/comments.html'
+    comments = models.Comment.objects(id=post_id).order_by('create_time')
+
+    data = {
+        'form': form,
+        'comments': comments if comments else '',
+        'slug': post_id,
+    }
 
     return render_template(template_name, **data)

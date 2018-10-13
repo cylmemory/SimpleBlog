@@ -19,3 +19,5 @@ blog_admin.add_url_rule('/posts/<post_id>/', view_func=admin_view.Post.as_view('
 blog_admin.add_url_rule('/posts/', view_func=admin_view.PostLists.as_view('posts'))
 blog_admin.add_url_rule('posts/draft/', view_func=admin_view.DraftLists.as_view('drafts'))
 
+
+

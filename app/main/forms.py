@@ -18,3 +18,11 @@ class PostForm(FlaskForm):
     status = HiddenField('status')
     post_id = HiddenField('post_id')
 
+
+class CommentForm(FlaskForm):
+    email = StringField('* Email', validators=[DataRequired(), Length(1, 128), Email()])
+    author = StringField('* Name', validators=[DataRequired(), Length(1, 200)])
+    body = TextAreaField('* Comment <small><span class="label label-info">markdown</span></small>',
+                         validators=[DataRequired()])
+    comment_id = HiddenField('comment_id')
+
