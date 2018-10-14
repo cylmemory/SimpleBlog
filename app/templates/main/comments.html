@@ -2,6 +2,9 @@
 <h3>Comments</h3>
 <br>
 
+{% import "_msg.html" as messages %}
+{{ messages.render_msg() }}
+
 {% import '_form.html' as forms %}
 <form method="post" action="#comment">
     {{ forms.render(form) }}

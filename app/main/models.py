@@ -54,7 +54,7 @@ class Comment(db.Document):
     body = db.StringField()
     body_html = db.StringField()
     create_time = db.DateTimeField()
-    disabled = db.BooleanField(default=False)
+    disabled = db.BooleanField(default=True)
     replay_to = db.ReferenceField('self')
     gavatar_id = db.StringField(default='00000000000')
 

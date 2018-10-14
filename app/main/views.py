@@ -70,6 +70,25 @@ def post_detail(post_id):
     else:
         obj = {'email': session.get('email'), 'author': session.get('author'),}
         form = forms.CommentForm(**obj)
+    if form.validate_on_submit():
+        '''commit comment.'''
+        comment = models.Comment()
+        comment.author = form.author.data.strip()
+        comment.email = form.email.data.strip()
+        comment.post_id = post.id
+        comment.post_title = post.title
+        comment.body = form.body.data.strip()
+        comment.save()
+
+        session['email'] = form.email.data.strip()
+        session['author'] = form.email.data.strip()
+
+        url = '{0}#comment'.format(url_for('main.post_detail', post_id=post_id))
+        url = '{0}#comment'.format(request.full_path)
+        msg = 'Succeed to comment, and it will be displayed when the administrator reviews it.'
+        flash(msg, 'success')
+        return redirect(url)
+
 
     if data['allow_comment']:
         data['comment_html'] = post_comment(post_id, form) if post_comment else ''
