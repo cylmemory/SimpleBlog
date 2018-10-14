@@ -81,7 +81,7 @@ def post_detail(post_id):
         comment.save()
 
         session['email'] = form.email.data.strip()
-        session['author'] = form.email.data.strip()
+        session['author'] = form.author.data.strip()
 
         url = '{0}#comment'.format(url_for('main.post_detail', post_id=post_id))
         url = '{0}#comment'.format(request.full_path)
