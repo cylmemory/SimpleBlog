@@ -186,3 +186,27 @@ class Comment(MethodView):
 
         return render_template(self.template_name, **data)
 
+    def put(self, pickup):
+        comment = models.Comment.get_or_404(pickup=pickup)
+        comment.disabled = False
+        comment.save()
+
+        if request.args.get('ajax'):
+            return 'success'
+
+        msg = 'The comment has been approved!'
+        flash(msg, 'success')
+
+        return redirect(url_for('blog_main.comments_approved'))
+
+    def delete(self, pickup):
+        comment = models.Comment.get_or_404(pickup=pickup)
+        comment.delete()
+
+        if request.args.get('ajax'):
+            return 'success'
+
+        msg = 'The comment has been deleted!'
+        flash(msg, 'success')
+
+        return redirect(url_for('blog_main.comments_approved'))

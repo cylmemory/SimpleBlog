@@ -22,6 +22,9 @@ blog_admin.add_url_rule('/posts/', view_func=admin_view.PostLists.as_view('posts
 blog_admin.add_url_rule('posts/draft/', view_func=admin_view.DraftLists.as_view('drafts'))
 
 blog_admin.add_url_rule('/posts/comments', view_func=admin_view.Comment.as_view('comments'))
+blog_admin.add_url_rule('posts/comments/approved/', view_func=admin_view.Comment.as_view('comments_approved'),
+                        defaults={'disabled': 'True'})
+blog_admin.add_url_rule('/posts/comments/<pickup>/action/', view_func=admin_view.Comment.as_view('action'))
 
 blog_admin.errorhandler(401)(errors.handle_unauthorized)
 
