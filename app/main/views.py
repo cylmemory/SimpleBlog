@@ -75,7 +75,7 @@ def post_detail(post_id):
         comment = models.Comment()
         comment.author = form.author.data.strip()
         comment.email = form.email.data.strip()
-        comment.post_id = post.id
+        comment.post_id = post_id
         comment.post_title = post.title
         comment.body = form.body.data.strip()
         comment.save()

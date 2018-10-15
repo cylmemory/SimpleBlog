@@ -47,7 +47,7 @@ class Post(db.Document):
 
 
 class Comment(db.Document):
-    post_id = db.StringField(required=True)
+    post_id = db.StringField()
     post_title = db.StringField()
     author = db.StringField(required=True)
     email = db.EmailField(max_length=255)
@@ -67,7 +67,9 @@ class Comment(db.Document):
             self.gavatar_id = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
 
         if not self.create_time:
-            self.create_time=datetime.datetime.utcnow()
+            self.create_time = datetime.datetime.utcnow()
+
+        return super(Comment, self).save(*args, **kwargs)
 
     def get_gavatar_url(self, img_size=0, default_image_url=None):
         gavatar_url = '//s.gravatar.com/avatar/' + self.gavatar_id

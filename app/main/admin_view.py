@@ -159,3 +159,30 @@ class PostLists(MethodView):
 class DraftLists(PostLists):
     status = 1
 
+
+class Comment(MethodView):
+    decorators = [login_required, editor_Permission.require(401)]
+    template_name = "blog_admin/comments.html"
+
+    def get(self, disabled=True, pickup=None):
+        if pickup:
+            return redirect(url_for('blog_main.comments'))
+
+        comments = models.Comment.objects(disabled=disabled)
+        kw = request.args.get('keyword')
+        if kw:
+            comments = comments.filter(body__icontains=kw)
+
+        try:
+            cur_page = int(request.args.get('page', 1))
+        except:
+            cur_page = 1
+        comments = comments.paginate(page=cur_page, per_page=10)
+
+        data = {}
+        data['comments'] = comments
+        data['keyword'] = kw
+        data['disabled'] = disabled
+
+        return render_template(self.template_name, **data)
+
