@@ -110,3 +110,17 @@ def post_comment(post_id, form=None, *args, **kwargs):
     }
 
     return render_template(template_name, **data)
+
+def author_info(username):
+    author = models.User.objects.get_or_404(username=username)
+
+    posts = models.Post.objects.filter(status=0, author=author).order_by('-create_time')
+    cur_page = request.args.get('page', 1)
+
+    posts = posts.paginate(page=int(cur_page), per_page=10)
+
+    data={}
+    data['user'] = author
+    data['posts']= posts
+
+    return render_template('main/author.html', **data)

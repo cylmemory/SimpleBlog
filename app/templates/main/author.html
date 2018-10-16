@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %} Author | {{ user.username }} {% endblock %}
+{% block header %}
+<header class="masthead" style="background-image: url({{ url_for('static',filename='img/bg/home-bg.jpg') }})">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading" style="text-align:center">
+                        <h1>About Author</h1>
+                        <span class="subheading">Coding · Thinking · Moving </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block main %}
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="row">
+                        <h3>About {{ user.username }} </h3>
+                        <hr>
+                        <dl class="dl-horizontal">
+                            <dt>Username:</dt>
+                            <dd>{{ user.username }}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Biography:</dt>
+                            <dd>{{ user.about_me }}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Social Network:</dt>
+                            <dd>
+                                {% if user.social_networks['github']['url'] %}
+                                    <a href='{{ user.social_networks["github"]["url"] }}'><i class="fa fa-github fa-lg"></i></a>
+                                {% endif %}
+                                {% if user.social_networks['twitter']['url'] %}
+                                    <a href='{{ user.social_networks["twitter"]["url"] }}'><i class="fa fa-twitter fa-lg"></i></a>
+                                {% endif %}
+                                {% if user.social_networks['weibo']['url'] %}
+                                    <a href='{{ user.social_networks["weibo"]["url"] }}'><i class="fa fa-weibo fa-lg"></i></a>
+                                {% endif %}
+                                {% if user.social_networks['facebook']['url'] %}
+                                    <a href='{{ user.social_networks["facebook"]["url"] }}'><i class="fa fa-facebook fa-lg"></i></a>
+                                {% endif %}
+                                {% if user.social_networks['wechat']['url'] %}
+                                    <a id="btn_weixin" href='{{ user.social_networks["wechat"]["url"] }}'><i class="fa fa-weixin fa-lg"></i></a>
+                                    <div id="weixin" class="hidden">
+                                        <br>
+                                        <img src="{{ user.social_networks["weixin"]["url"] }}?imageView/2/w/150" title="weixin">
+                                    </div>
+                                {% endif %}                
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Homepage:</dt>
+                            <dd>
+                                {% if user.homepage_url %}
+                                <a href="{{ user.homepage_url }}"><i class="fa fa-home fa-lg"></i></a> {{ user.homepage_url }}
+                                {% else %}
+                                Not yet
+                                {% endif %}
+                            </dd>
+                        </dl>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <h3>Articles</h3><hr>
+                    <ul>
+                        {% for post in posts.items %}
+                            <li><a href="{{ url_for('main.post_detail', post_id=post.id) }}">{{ post.title }}</a></li>
+                        {% else %}
+                            <p class="post-subtitle">No articles found here</p>
+                        {% endfor %}
+                    </ul>
+                    <!-- Pager -->
+                    <ul class="pager">
+                        {% if posts.has_next %}
+                        <li class="next">
+                            <a href="?page={{ posts.next_num }}">Older Posts &rarr;</a>
+                        </li>
+                        {% endif %}
+                        {% if posts.has_prev %}
+                            <li class="next"><a href="?page={{ posts.prev_num }}">Previous Posts</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </article>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
