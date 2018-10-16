@@ -49,10 +49,47 @@
                         {{ comment_html|safe }}
                     </div>
                 </div>
+                <div class="up-to-top">
+                    <button id="button-up" class="glyphicon glyphicon-chevron-up"></button>
+                </div>
             </article>
         {% endif %}
     </div>
 {% endblock %}
 {% block js %}
 <script src="https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js"></script>
+<script>
+ $('#button-up').on('click',function (event) {
+     $('html,body').animate({
+         scrollTop:0
+     },500)
+ })
+$(".up-to-top").mouseover(function(){
+	$("#button-up").css("background-color","#00A1D6");
+    $("#button-up").css("color","#F6F9FA");
+	});
+ $(".up-to-top").mouseout(function(){
+	$("#button-up").css("background-color","#ccc");
+    $("#button-up").css("color","#00A1D6");
+	});
+$(window).on('scroll', function () {
+    if($(window).scrollTop() > $(window).height())
+        $('#button-up').fadeIn();
+    else
+        $('#button-up').fadeOut();
+})
+
+$(window).trigger('scroll');
+</script>
+<style>
+#button-up {
+    position: fixed;
+    right: 80px;
+    bottom: 30px;
+    height: 30px;
+    top: 500px;
+    border: 0px;
+    color: #00A1D6;
+}
+</style>
 {% endblock %}

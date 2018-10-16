@@ -200,7 +200,7 @@ class Comment(MethodView):
         return redirect(url_for('blog_admin.comments_approved'))
 
     def delete(self, pickup):
-        # pk like document’s "primary key"
+        # pk like document's "primary key"
         comment = models.Comment.objects.get_or_404(pk=pickup)
         comment.delete()
 
