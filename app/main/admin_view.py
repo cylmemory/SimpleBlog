@@ -166,7 +166,7 @@ class Comment(MethodView):
 
     def get(self, disabled=True, pickup=None):
         if pickup:
-            return redirect(url_for('blog_main.comments'))
+            return redirect(url_for('blog_admin.comments'))
 
         comments = models.Comment.objects(disabled=disabled)
         kw = request.args.get('keyword')
@@ -187,7 +187,7 @@ class Comment(MethodView):
         return render_template(self.template_name, **data)
 
     def put(self, pickup):
-        comment = models.Comment.get_or_404(pickup=pickup)
+        comment = models.Comment.objects.get_or_404(pk=pickup)
         comment.disabled = False
         comment.save()
 
@@ -197,10 +197,11 @@ class Comment(MethodView):
         msg = 'The comment has been approved!'
         flash(msg, 'success')
 
-        return redirect(url_for('blog_main.comments_approved'))
+        return redirect(url_for('blog_admin.comments_approved'))
 
     def delete(self, pickup):
-        comment = models.Comment.get_or_404(pickup=pickup)
+        # pk like document’s "primary key"
+        comment = models.Comment.objects.get_or_404(pk=pickup)
         comment.delete()
 
         if request.args.get('ajax'):
@@ -209,4 +210,16 @@ class Comment(MethodView):
         msg = 'The comment has been deleted!'
         flash(msg, 'success')
 
-        return redirect(url_for('blog_main.comments_approved'))
+        return redirect(url_for('blog_admin.comments_approved'))
+
+
+class Comments(MethodView):
+    decorators = [login_required, editor_Permission.require(401)]
+
+    def delete(self):
+        if request.args.get('ajax') == 'true' or request.args.get('action') == 'clear_comments':
+            pending_comment = models.Comment.objects(disabled=True)
+            pending_comment.delete()
+            flash('All pending comments have been deleted!', 'success')
+
+        return 'All pending comments has been deleted'

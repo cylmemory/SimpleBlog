@@ -99,8 +99,9 @@ def post_detail(post_id):
 
 
 def post_comment(post_id, form=None, *args, **kwargs):
+    # view method of comment form.
     template_name = 'main/comments.html'
-    comments = models.Comment.objects(id=post_id).order_by('create_time')
+    comments = models.Comment.objects(post_id=post_id, disabled=False).order_by('create_time')
 
     data = {
         'form': form,

@@ -6,24 +6,24 @@
     <div class="row">
         <div class="col-xs-2 col-sm-2">
             <ul class="nav nav-pills nav-stacked ">
-                <li class="active"><a href="{{ url_for('blog_main.comments') }}" onclick="return false">Pending</a></li>
-                <li><a href="{{ url_for('blog_main.comments_approved') }}">Approved</a></li>
+                <li {% if disabled %}class="active"{% endif %}><a href="{{ url_for('blog_admin.comments') }}">Pending</a></li>
+                <li {% if disabled == False %}class="active"{% endif %}><a href="{{ url_for('blog_admin.comments_approved') }}">Approved</a></li>
             </ul>
         </div>
-    <div class="col-xs-10 col-sm-10">
+        <div class="col-xs-10 col-sm-10">
         <form class="form-inline" style="text-align: right;">
               <div class="form-group">
                 <div class="input-group">
-                  <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
                   <input type="text" class="form-control" placeholder="keyword" name="keyword"
                     {% if keyword %} value={{keyword}} {% endif %}>
+                  <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
                 </div>
               </div>
         </form>
         <br>
         <table class="table table-striped">
             <tr>
-                <th style="width: 5%"></th>
+                <th style="width: 5%">Item</th>
                 <th style="width: 15%">Author</th>
                 <th>Comment</th>
                 <th style="width: 20%">Actions</th>
@@ -45,30 +45,32 @@
                             <p>
                                 <a href="{{ url_for('main.post_detail', post_id=comment.post_id) }}" target="_blank"><i class="fa fa-search" aria-hidden="true">{{ comment.post_title }}</i></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-clock-o" aria-hidden="true"></i> {{ comment.create_time.strftime('%Y-%m-%d %H:%M:%S') }}
+                                <i class="fa fa-clock-o" aria-hidden="true"></i> {{ comment.create_time.strftime('%Y-%m-%d %H:%M') }}
                             </p>
                         </div>
                     </td>
                     <td>
                         {% if comment.disabled %}
-                        <a class="btn btn-success approve" href="{{ url_for('blog_main.action', pickup=comment.id) }}" role="button">Approve</a>
+                        <a class="btn btn-success approve" href="{{ url_for('blog_admin.action', pickup=comment.id) }}" role="button">Approve</a>
                         {% endif %}
-                        <a class="btn btn-danger delete" href="{{ url_for('blog_main.action', pickup=comment.id) }}" role="button">Delete</a>
+                        <a class="btn btn-danger delete" href="{{ url_for('blog_admin.action', pickup=comment.id) }}" role="button">Delete</a>
                     </td>
                 </tr>
             {% else %}
                 <tr><td></td><td colspan="3"> No record yet!</td>
             {% endfor %}
         </table>
-
-        <a class="btn btn-danger" id="clear_comments" href="#" role="button">Clear</a>
+        {% if disabled %}
+        <a class="btn btn-danger" id="clear_comments" href="{{ url_for('blog_admin.comments_clear_action') }}" role="button">Clear</a>
+        {% endif %}
         {% import '_pagination.html' as paginations %}
         {{ paginations.render_pagination(comments) }}
+    </div>
     </div>
 {% endblock %}
 
 {% block js %}
-<script>
+<script type="text/javascript">
 //approve event
 $('.approve').on('click', function (event) {
     var url = $(this).attr('href');
@@ -110,7 +112,7 @@ $('#clear_comments').on('click', function (event) {
     var url = $(this).attr('href');
     url = url + '?ajax=true&action=clear_comments';
 
-    bootbox.confirm('Are you sure?', function (result) {
+    bootbox.confirm('All comments will be deleted, Are you sure?', function (result) {
         if(result){
             $.ajax({
                 url: url,

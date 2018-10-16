@@ -10,3 +10,23 @@
     {{ forms.render(form) }}
     <button type="submit" class="btn btn-primary" name="post-comment" value="post-comment">Submit</button>
 </form>
+<br>
+<table class="table">
+    {% for comment in comments %}
+    <tr>
+        <td style="width: 8%">
+            <img class="media-object" src="{{ comment.get_gavatar_url() }}" alt="user-avatar">
+        </td>
+        <td style="word-wrap:break-word;word-break:break-all;">
+            <h4>{{ comment.author }}
+            </h4>
+            <div>
+                {{ comment.body_html|safe }}
+            </div>
+        </td>
+        <td style="width: 25%">
+            <small>{{ comment.create_time.strftime('%Y.%m.%d %H:%M') }}</small>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

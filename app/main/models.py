@@ -32,7 +32,7 @@ class Post(db.Document):
     create_time = db.DateTimeField()
     modify_time = db.DateTimeField()
 
-    '''rewrite save method.'''
+    '''override save method.'''
     def save(self, allow_set_time=False, *args, **kwargs):
         if not allow_set_time:
             time = datetime.datetime.utcnow()
@@ -67,21 +67,13 @@ class Comment(db.Document):
             self.gavatar_id = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
 
         if not self.create_time:
-            self.create_time = datetime.datetime.utcnow()
+            self.create_time = datetime.datetime.now()
 
         return super(Comment, self).save(*args, **kwargs)
 
-    def get_gavatar_url(self, img_size=0, default_image_url=None):
+    def get_gavatar_url(self):
         gavatar_url = '//s.gravatar.com/avatar/' + self.gavatar_id
-        params = {}
-        if img_size:
-            params['s'] = str(img_size)
-        if default_image_url:
-            params['d'] = default_image_url
-
-        if params:
-            gavatar_url = '{0}?{1}'.format(gavatar_url, urllib.urlencode(params))
-
+        gavatar_url = gavatar_url + '?s=40'
         return gavatar_url
 
     def __unicode__(self):

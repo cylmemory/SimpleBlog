@@ -7,7 +7,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="post-heading">
+            <div class="post-heading" style="text-align:center">
               <h1>{{ post.title }}</h1><br>
                 <span class="meta">Posted by <a href="#">{{ post.author.username }}</a> on {{ moment(post.create_time).format('YYYY/MM/DD, h:mm a') }}</span>
                 {% if post.category%}
