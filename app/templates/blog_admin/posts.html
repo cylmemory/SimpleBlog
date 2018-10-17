@@ -39,7 +39,7 @@ $('.del-post').on('click',function (event) {
             <tr id="post-{{ post.id }}">
                 <td>{{ loop.index }}</td>
                 <td>
-                    <a href="{{ url_for('main.post_detail', post_id=post.id) }}" target="_blank">{{ post.title }}</a>
+                    <a href="{{ url_for('main.post_preview', post_id=post.id) }}" target="_blank">{{ post.title }}</a>
                 </td>
                 <td>{{ post.abstract }}</td>
                 <td>{{ post.author.username }}</td>
