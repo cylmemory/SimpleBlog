@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}404 Not Found{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url({{ url_for('static',filename='img/bg/home-bg.jpg') }})">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading" style="text-align:center">
+                <h1>Simple Blog</h1><br>
+                <span class="subheading">Coding · Thinking · Moving</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <p>Nothing Found</p>
+    </div>
+</div>
+{% endblock %}

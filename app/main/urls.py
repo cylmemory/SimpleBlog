@@ -10,7 +10,9 @@ main.add_url_rule('/post/<post_id>/', 'post_detail', views.post_detail, methods=
 main.add_url_rule('/posts/<post_id>/preview/', 'post_preview', views.post_detail, defaults={'is_preview': True})
 main.add_url_rule('/users/<username>/', 'author_info', views.author_info)
 
+main.errorhandler(404)(errors.page_not_found)
 main.errorhandler(401)(errors.handle_unauthorized)
+main.add_url_rule('/<path:invalid_path>', 'handle_unmatchable', errors.handle_unmatchable)
 
 
 blog_admin = Blueprint('blog_admin', __name__)
@@ -32,5 +34,6 @@ blog_admin.add_url_rule('posts/comments/approved/', view_func=admin_view.Comment
 blog_admin.add_url_rule('/posts/comments/<pickup>/action/', view_func=admin_view.Comment.as_view('action'))
 blog_admin.add_url_rule('/posts/comments/action/', view_func=admin_view.Comments.as_view('comments_clear_action'))
 
+blog_admin.errorhandler(404)(errors.admin_page_not_found)
 blog_admin.errorhandler(401)(errors.handle_unauthorized)
-
+blog_admin.errorhandler(403)(errors.handle_forbidden)

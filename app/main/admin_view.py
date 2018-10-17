@@ -63,7 +63,7 @@ class Post(MethodView):
 
         if edit_flag:
             try:
-                post = models.Post.objects.get(id=post_id)
+                post = models.Post.objects.get_or_404(id=post_id)
             except models.Post.DoesNotExist:
                 post = models.Post.objects.get_or_404(id=post_id)
 
