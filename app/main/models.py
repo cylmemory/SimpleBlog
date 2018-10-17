@@ -82,3 +82,30 @@ class Comment(db.Document):
     meta = {
         'ordering': ['-create_time']
     }
+
+
+class PostStatistics(db.Document):
+    post = db.ReferenceField(Post)
+    visit_count = db.IntField(default=0)
+    verbose_count_base = db.IntField(default=0)
+
+
+class Tracker(db.Document):
+    post = db.ReferenceField(Post)
+    ip = db.StringField()
+    user_agent = db.StringField()
+    create_time = db.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if not self.create_time:
+            self.create_time = datetime.datetime.now()
+        return super(Tracker, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return self.ip
+
+    meta = {
+        'allow_inheritance': True,
+        'indexes': ['ip'],
+        'ordering': ['-create_time']
+    }

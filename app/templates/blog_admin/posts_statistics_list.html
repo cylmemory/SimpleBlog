@@ -1,0 +1,34 @@
+{% extends "login_base.html" %}
+{% block title %}Posts Statistics{% endblock %}
+{% block main %}
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Title</th>
+                <th style="width: 15%">Publish</th>
+                <th style="width: 15%">Update</th>
+                <th style="width: 5%">Visited</th>
+                <th style="width: 5%">Verbose</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts.items %}
+            <tr id="post-{{ post.id }}">
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ url_for('blog_admin.post_statistics_detail', post_id=post.post.id) }}">{{ post.post.title }}</a></td>
+                <td>{{ post.post.create_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ post.post.modify_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ post.visit_count }}</td>
+                <td>{{ post.verbose_count_base }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" style="text-align: left">No records yet</td></tr>
+            {% endfor %}      
+        </tbody>
+    </table>
+    {% import '_pagination.html' as pagination %}
+    {{ pagination.render_pagination(posts) }}
+</div>
+{% endblock %}

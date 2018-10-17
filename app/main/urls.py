@@ -22,6 +22,9 @@ blog_admin.add_url_rule('/posts/<post_id>/', view_func=admin_view.Post.as_view('
 blog_admin.add_url_rule('/posts/', view_func=admin_view.PostLists.as_view('posts'))
 blog_admin.add_url_rule('posts/draft/', view_func=admin_view.DraftLists.as_view('drafts'))
 
+blog_admin.add_url_rule('/posts/statistics/', view_func=admin_view.PostStatisticList.as_view('post_statistics'))
+blog_admin.add_url_rule('/posts/statistics/<post_id>/', view_func=admin_view.PostStatisticDetail.as_view('post_statistics_detail'))
+
 blog_admin.add_url_rule('/posts/comments', view_func=admin_view.Comment.as_view('comments'))
 blog_admin.add_url_rule('posts/comments/approved/', view_func=admin_view.Comment.as_view('comments_approved'),
                         defaults={'disabled': False})

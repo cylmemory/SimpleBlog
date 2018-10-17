@@ -1,9 +1,10 @@
-from flask import redirect, render_template, url_for, request, g, flash, session, abort
+from flask import redirect, render_template, url_for, request, g, flash, session, abort, current_app
 from flask.views import MethodView
 from . import models, forms
 from mongoengine.queryset.visitor import Q
 from ..config import BlogSettings
 from flask_login import current_user
+from ..main import signals
 
 PER_PAGE = BlogSettings['paginate'].get('per_page', 10)
 
@@ -55,7 +56,7 @@ def list_post():
     return render_template('main/index.html', **data)
 
 
-def post_detail(post_id):
+def post_detail(post_id, is_preview=False):
     post = models.Post.objects.get_or_404(id=post_id)
 
     if post.status == 1 and current_user.is_anonymous:
@@ -92,6 +93,9 @@ def post_detail(post_id):
 
     if data['allow_comment']:
         data['comment_html'] = post_comment(post_id, form) if post_comment else ''
+
+    if not is_preview:
+        signals.post_visited.send(current_app._get_current_object(), post=post)
 
     template_name = 'main/post.html'
 

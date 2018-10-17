@@ -3,7 +3,7 @@ from flask.views import MethodView
 from flask_login import login_required, current_user
 from ..useraccounts.models import User
 from ..useraccounts import email
-import datetime
+import datetime, random
 from ..useraccounts.permissions import writer_Permission, editor_Permission
 from . import models, forms
 from ..config import BlogSettings
@@ -108,6 +108,14 @@ class Post(MethodView):
             post.save()
             msg = 'Succeed to publish the post'
             redirect_url = url_for('blog_admin.posts')
+
+            try:
+                post_statistic = models.PostStatistics.objects.get(post=post)
+            except models.PostStatistics.DoesNotExist:
+                post_statistic = models.PostStatistics()
+                post_statistic.post = post
+                post_statistic.verbose_count_base = random.randint(500, 5000)
+                post_statistic.save()
 
         elif request.form.get('draft'):
             post.status = 1
@@ -223,3 +231,41 @@ class Comments(MethodView):
             flash('All pending comments have been deleted!', 'success')
 
         return 'All pending comments has been deleted'
+
+
+class PostStatisticList(MethodView):
+    decorators = [login_required, editor_Permission.require(401)]
+    template_name = 'blog_admin/posts_statistics_list.html'
+
+    def get(self):
+        posts = models.PostStatistics.objects.all()
+
+        try:
+            cur_page = int(request.args.get('page', 1))
+        except:
+            cur_page = 1
+
+        posts = posts.paginate(page=cur_page, per_page=10)
+
+        return render_template(self.template_name, posts=posts)
+
+
+class PostStatisticDetail(MethodView):
+    decorators = [login_required, editor_Permission.require(401)]
+    template_name = 'blog_admin/post_statistics_detail.html'
+
+    def get(self, post_id):
+        post = models.Post.objects.get_or_404(id=post_id)
+        post_statistics = models.PostStatistics.objects.get_or_404(post=post)
+        trackers = models.Tracker.objects(post=post)
+
+        try:
+            cur_page = int(request.args.get('page', 1))
+        except:
+            cur_page = 1
+
+        trackers = trackers.paginate(page=cur_page, per_page=PER_PAGE*2)
+
+        data = {'post_statistics':post_statistics, 'trackers':trackers, 'post':post }
+
+        return render_template(self.template_name, **data)
