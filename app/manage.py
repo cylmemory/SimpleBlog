@@ -13,5 +13,12 @@ manager.add_command('runserver', Server(
     host='0.0.0.0',
     port=5052))
 
+@manager.command
+def test():
+    import unittest
+    test = unittest.TestLoader().discover('test')
+    unittest.TextTestRunner(verbosity=2).run(test)
+
+
 if __name__ == "__main__":
     manager.run()
