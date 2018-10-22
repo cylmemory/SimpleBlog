@@ -6,23 +6,23 @@ from app import create_app, db
 class ModelTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app('testing')
-        self.app_context = self.app.context()
+        self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client(use_cookies=True)
 
     def tearDown(self):
-        db_name = current_app.config['MONGODB_SETTINGS']['DB']
+        db_name = current_app.config['MONGODB_SETTINGS']['db']
         db.connection.drop_database(db_name)
         self.app_context.pop()
 
     def test_home_page(self):
-        response = self.clinet.get(url_for('main.index'))
+        response = self.client.get(url_for('main.index'))
         self.assertTrue(response.status_code == 200)
 
     def test_register_login_logout(self):
         response = self.client.post(url_for('useraccounts.register'), data={
-            'username': 'Test',
-            'email': 'test@gmail.com',
+            'username': 'test1',
+            'email': 'test1@example.com',
             'password': 'test',
             'password2': 'test'
         })
