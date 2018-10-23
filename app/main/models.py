@@ -45,6 +45,27 @@ class Post(db.Document):
 
         return super(Post, self).save(*args, **kwargs)
 
+    def post_to_dict(self):
+        dict_post ={}
+
+        dict_post['title'] = self.title
+        dict_post['abstract'] = self.abstract
+        dict_post['content'] = self.content
+        dict_post['author'] = self.author
+        dict_post['tags'] = self.tags
+        dict_post['category'] = self.category
+        dict_post['status'] = self.status
+        dict_post['create_time'] = self.create_time.strftime('%Y-%m-%d %H:%M')
+        dict_post['modify_time'] = self.modify_time.strftime('%Y-%m-%d %H:%M')
+
+        return dict_post
+
+    def __unicode__(self):
+        return self.title
+
+    def __str__(self):
+        return self.title
+
 
 class Comment(db.Document):
     post_id = db.StringField()
@@ -75,6 +96,21 @@ class Comment(db.Document):
         gavatar_url = '//s.gravatar.com/avatar/' + self.gavatar_id
         gavatar_url = gavatar_url + '?s=40'
         return gavatar_url
+
+    def comment_to_dict(self):
+        dict_comment = {}
+
+        dict_comment['post_id'] = self.post_id
+        dict_comment['post_title'] = self.post_title
+        dict_comment['author'] = self.author
+        dict_comment['email'] = self.email
+        dict_comment['body'] = self.body
+        dict_comment['create_time'] = self.create_time.strftime('%Y-%m-%d %H:%M')
+        dict_comment['disabled'] = self.disabled
+        dict_comment['gavatar_id'] = self.gavatar_id
+        dict_comment['replay_to'] = self.replay_to
+
+        return dict_comment
 
     def __unicode__(self):
         return self.body[:64]

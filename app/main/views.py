@@ -90,7 +90,6 @@ def post_detail(post_id, is_preview=False):
         flash(msg, 'success')
         return redirect(url)
 
-
     if data['allow_comment']:
         data['comment_html'] = post_comment(post_id, form) if post_comment else ''
 

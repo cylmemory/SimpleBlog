@@ -86,6 +86,23 @@ class User(UserMixin, db.Document):
         except AttributeError:
             raise NotImplementedError('No `username` attribute - override `get_id`')
 
+    def user_to_dict(self):
+        dict_user = {}
+
+        dict_user['username'] = self.username
+        dict_user['email'] = self.email
+        dict_user['confirmed'] = self.confirmed
+        dict_user['role'] = self.role
+        dict_user['is_superuser'] = self.is_superuser
+        dict_user['about_me'] = self.about_me
+        dict_user['social_networks'] = self.social_networks
+        dict_user['about_me'] = self.about_me
+        dict_user['last_login_time'] = self.last_login_time.strftime('%Y-%m-%d %H:%M')
+        dict_user['create_time'] = self.create_time.strftime('%Y-%m-%d %H:%M')
+        dict_user['confirm_send_time'] = self.confirm_send_time.strftime('%Y-%m-%d %H:%M')
+
+        return dict_user
+
     def __unicode__(self):
         return self.username
 
