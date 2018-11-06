@@ -7,8 +7,8 @@ This is my first project about flask,and I use Bootstrap as Frontend to decorate
 
 ### Verion
 - v1.0 --USER LOGIN
-- V2.0 --POST and COMMENTS 
-- V3.0 --RESTful API
+- v2.0 --POST and COMMENTS 
+- v3.0 --RESTful API
 
 ### Feature
 - Multiple user
