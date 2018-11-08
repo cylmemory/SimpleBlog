@@ -81,18 +81,19 @@ Then you can visit the blog with url: http://127.0.0.1:5052
 If you want to customize manage.py, checkout [Flask-Script](https://flask-script.readthedocs.io/en/latest/)
 
 Get started with OctBlog
-1. Create a superuser to administrate OctBlog
-Visit the following url and create a superuser
+1. Create a superuser to administrate OctBlog  
 
-http://127.0.0.1:5052/useraccounts/register/admin
+   Visit the following url and create a superuser  
 
-If the url is forbidden, you need to go `SimpleBlog/app/config.py` to modify your configurations to allow the creation.
+   http://127.0.0.1:5052/useraccounts/register/admin  
 
-2. Administrator interface
+   If the url is forbidden, you need to go `SimpleBlog/app/config.py` to modify your configurations to allow the creation.
+
+2. Administrator interface  
 The admin home is: http://127.0.0.1:5052/admin
 
-3. Modify the default configurations
-You either change settings in `SimpleBlog/app/config.py` file, or set the environment variables defined in this file.
+3. Modify the default configurations  
+You either change settings in `SimpleBlog/app/config.py` file, or set the environment variables defined in this file.  
 
 Setting environment variables is recommended, and once the configuration is changed, you need to restart the service.
 
