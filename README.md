@@ -13,7 +13,8 @@ This is my first project about flask,and I use Bootstrap as Frontend to decorate
 ### Feature
 - Multiple user
 - Role：admin,editor,writer,reader
-- Admin models
+- Admin models  
+- Test Models  
 - Email comfirm
 - MTV design model
 - Markdown support
