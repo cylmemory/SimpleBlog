@@ -81,8 +81,8 @@ Then you can visit the blog with url: http://127.0.0.1:5052
 
 If you want to customize manage.py, checkout [Flask-Script](https://flask-script.readthedocs.io/en/latest/)
 
-Get started with OctBlog
-1. Create a superuser to administrate OctBlog  
+Get started with SimpleBlog
+1. Create a superuser to administrate SimpleBlog  
 
    Visit the following url and create a superuser  
 
